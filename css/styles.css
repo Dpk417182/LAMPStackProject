@@ -1,6 +1,6 @@
 body 
 {
-    background-color: #707070;
+    background-color: #5CDB95;
 }
 
 #title 
@@ -10,16 +10,17 @@ body
     margin: 2% 5%;
     text-align: center;
     font-family: 'Ubuntu', sans-serif;
-    color: #FFFFFF;
+    color: #05386B;
 }
 
 #loginDiv
 {
+    border-radius: 25px;
     font-size: 30px;
     width: 70%;
     margin-left: 15%;
     padding: 25px;
-    background-color: #b2b2b2;
+    background-color: #379783;
 }
 
 #loggedInDiv
@@ -28,7 +29,7 @@ body
     width: 70%;
     margin-left: 15%;
     padding: 25px;
-    background-color: #b2b2b2;
+    background-color: #379783;
 }
 
 #accessUIDiv
@@ -44,8 +45,9 @@ body
 {
     font-size: 30px;
     border-radius: 25px;
-    width: 50%;
+    width: 25%;
     margin-left: 25%;
+    background-color: #5CDB95;
     font-family: 'Ubuntu', sans-serif;
 }
 
@@ -89,7 +91,7 @@ input[type="text"],input[type="password"]{
     margin-left: 5%;
     margin-bottom: 2%;
     font-family: 'Ubuntu', sans-serif;
-    color: #95060a;
+    color: #EDF5E1;
 }
 
 #loginResult{
@@ -100,7 +102,7 @@ input[type="text"],input[type="password"]{
     margin-left: 5%;
     margin-bottom: 2%;
     font-family: 'Ubuntu', sans-serif;
-    color: #95060a;
+    color: #EDF5E1;
 }
 
 #userName{
