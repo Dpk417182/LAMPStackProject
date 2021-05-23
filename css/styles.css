@@ -7,7 +7,6 @@ body
 {
     font-size: 40px;
     width: 100%;
-    margin: 2% 5%;
     text-align: center;
     font-family: 'Ubuntu', sans-serif;
     color: #05386B;
@@ -15,19 +14,19 @@ body
 
 #loginDiv
 {
+    margin: auto;
     border-radius: 25px;
     font-size: 30px;
     width: 70%;
-    margin-left: 15%;
     padding: 25px;
     background-color: #379783;
 }
 
 #loggedInDiv
 {
+    margin: auto;
     font-size: 30px;
     width: 70%;
-    margin-left: 15%;
     padding: 25px;
     background-color: #379783;
 }
@@ -36,7 +35,7 @@ body
 {
     font-size: 30px;
     width: 70%;
-    margin-left: 15%;
+    margin: auto;
     padding: 25px;
     background-color: #b2b2b2;
 }
@@ -45,25 +44,42 @@ body
 {
     font-size: 30px;
     border-radius: 25px;
-    width: 25%;
-    margin-left: 25%;
+    width: 100%;
     background-color: #5CDB95;
+    border: none;
+    color: #05386B;
+    padding: 10px;
     font-family: 'Ubuntu', sans-serif;
+}
+
+.inlineButton
+{
+    display: inline-block;
+    width: 25%;
+}
+#buttonsGroup
+{
+    width: 100%;
+    text-align: center;
 }
 
 .buttons:hover{
     background-color: #00d5124f;
-    color: #FFFFFF;
-    opacity: 50%;
+    color: #5CDB95;
+    opacity: 100%;
 }
 
 #loginName
 {
+    color: #05386B;
 	font-size: 30px;
+    border: none;
 }
 #loginPassword
 {
+    color: #05386B;
 	font-size: 30px;
+    border: none;
 }
 #searchText
 {
