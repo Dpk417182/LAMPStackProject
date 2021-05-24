@@ -1,3 +1,12 @@
+/*
+This is organized first by general use styling such as the background,
+then grouped by which page a style is used on, in the following order:
+index.html (login page), register.html (registration page), main.html
+(the contact lookup page).*/
+/*
+A lot of the styling looks the same but with just different names. This
+should help with the javascript end of things.
+*/
 body 
 {
     background-color: #5CDB95;
@@ -8,36 +17,21 @@ body
     font-size: 40px;
     width: 100%;
     text-align: center;
+    margin-top: 5%;
     font-family: 'Ubuntu', sans-serif;
     color: #05386B;
 }
 
-#loginDiv
-{
-    margin: auto;
+input[type="text"],input[type="password"]{
     border-radius: 25px;
+    text-align: center;
+    width: 80%;
+    margin-left: 10%;
+    margin-bottom: 2%;
+    font-family: 'Ubuntu', sans-serif;
     font-size: 30px;
-    width: 70%;
-    padding: 25px;
-    background-color: #379783;
-}
-
-#loggedInDiv
-{
-    margin: auto;
-    font-size: 30px;
-    width: 70%;
-    padding: 25px;
-    background-color: #379783;
-}
-
-#accessUIDiv
-{
-    font-size: 30px;
-    width: 70%;
-    margin: auto;
-    padding: 25px;
-    background-color: #b2b2b2;
+    color: #05386B;
+    outline: none;
 }
 
 .buttons
@@ -52,51 +46,32 @@ body
     font-family: 'Ubuntu', sans-serif;
 }
 
-.inlineButton
-{
-    display: inline-block;
-    width: 25%;
-}
-#buttonsGroup
-{
-    width: 100%;
-    text-align: center;
-}
-
 .buttons:hover{
     background-color: #00d5124f;
     color: #5CDB95;
     opacity: 100%;
 }
 
-#loginName
+.inlineButton
 {
-    color: #05386B;
-	font-size: 30px;
-    border: none;
-}
-#loginPassword
-{
-    color: #05386B;
-	font-size: 30px;
-    border: none;
-}
-#searchText
-{
-	font-size: 30px;
-}
-#colorText
-{
-	font-size: 30px;
+    display: inline-block;
+    width: 25%;
 }
 
-input[type="text"],input[type="password"]{
-    border-radius: 25px;
+#buttonsGroup
+{
+    width: 100%;
     text-align: center;
-    width: 80%;
-    margin-left: 10%;
-    margin-bottom: 2%;
-    font-family: 'Ubuntu', sans-serif;
+}
+
+#loginDiv
+{
+    margin: auto;
+    border-radius: 25px;
+    font-size: 30px;
+    width: 70%;
+    padding: 25px;
+    background-color: #379783;
 }
 
 #inner-title{
@@ -133,26 +108,31 @@ input[type="text"],input[type="password"]{
     margin-left: 40%;
 }
 
-select{
-    width: 30%;
-    margin-left: 35%;
-    margin-top: 2%;
-    font-size: 0.75em;
-    font-family: 'Ubuntu', sans-serif;
+#searchDiv
+{
+    margin: auto;
+    border-radius: 25px;
+    font-size: 30px;
+    width: 70%;
+    padding: 25px;
+    background-color: #379783;
 }
 
-#colorSearchResult{
-    display: none;
+#searchName
+{
+    color: #05386B;
+	font-size: 30px;
+    border: none;
 }
 
-#colorAddResult{
-    display: inline-block;
-    font-size: 0.8em;
-    width: 90%;
-    text-align: center;
-    margin-left: 5%;
-    margin-top: 2%;
-    margin-bottom: 1%;
-    font-family: 'Ubuntu', sans-serif;
-    color: #95060a;
+#searchBar { 
+    position: relative; width:80%; margin-left: 0%;
+}
+
+#searchBar input { 
+    border:none; display:block; width: 100%; box-sizing: border-box; outline: none;
+}
+
+#searchBar img { 
+    position: absolute; top: 10%; left: 15% ;
 }
