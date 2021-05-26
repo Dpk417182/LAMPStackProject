@@ -30,7 +30,7 @@ function doLogin()
 			if (this.readyState == 4 && this.status == 200) 
 			{
 				var jsonObject = JSON.parse( xhr.responseText );
-				console.log("jsonObject: " + jsonObject);
+				// console.log("jsonObject: " + jsonObject);
 				userId = jsonObject.id
 				
 				if( userId < 1 )
