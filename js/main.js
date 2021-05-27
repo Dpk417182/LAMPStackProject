@@ -57,8 +57,18 @@ function doLogin()
 		
 		document.getElementById("loginResult").innerHTML = err.message;
 	}
-
 }
+
+function goToLogin()
+{
+	window.location.href = "index.html";
+}
+
+function goToRegisterPage()
+{
+	window.location.href = "register.html";
+}
+
 function doRegister()
 {
 
