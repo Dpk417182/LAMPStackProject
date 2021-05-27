@@ -57,7 +57,102 @@ function doLogin()
 		
 		document.getElementById("loginResult").innerHTML = err.message;
 	}
+}
 
+function goToLogin()
+{
+	window.location.href = "index.html";
+}
+
+function goToRegisterPage()
+{
+	window.location.href = "register.html";
+}
+
+function doRegister()
+{
+
+	var fName = document.getElementById("registerFirstName").value;
+	var lName = document.getElementById("registerLastName").value;
+	var userName = document.getElementById("registerUserName").value
+	var password = document.getElementById("registerPassword").value;
+	var retypePassword = document.getElementById("registerRetypePassword").value;
+
+	
+	document.getElementById("loginResult").innerHTML = "";
+
+	var jsonPayload = '{"firstName" : "' + fName + '", "lastName" : "'+ lName + '", "userName" : "' + userName + '", "password" : "' + password + '", "retypePassword" : "' + retypePassword + '"}';
+	var url = urlBase + '/Register' + extension;
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true); // Opens up connection
+
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8") // Sets type of content to be sent.
+	try
+	{
+		xhr.onreadystatechange = function()
+		{
+			// readyState: 4 = request finished & response ready
+			// status: 4 = "OK"
+			if(this.readyState == 4 && this.status == 200)
+			{
+				// var jsonObject = JSON.parse(xhr.responseText); // Returns text received from server following the request sent
+				// console.log("jsonObject: " + jsonObject);
+				// userId = jsonObject.id
+
+				if (fName == '')
+				{
+					document.getElementById("loginResult").innerHTML = "Please enter your first name";
+				}
+				else if(lName == '')
+				{
+					document.getElementById("loginResult").innerHTML = "Please enter your last name";
+				}
+				else if (userName == '')
+				{
+					document.getElementById("loginResult").innerHTML = "Please enter your Username";
+				}
+				else if (password == '')
+				{
+					document.getElementById("loginResult").innerHTML = "Please enter your password";
+				}
+				else if (retypePassword == '')
+				{
+					document.getElementById("loginResult").innerHTML = "Please enter your name";
+				}
+				else if (password != retypePassword)
+				{
+					document.getElementById("loginResult").innerHTML = "Passwords don't match";
+				}
+				else
+				{
+					window.location.href = "color.html";
+				}
+		
+				fName = jsonObject.firstName;
+				lName = jsonObject.lastName;
+				userName = jsonObject.userName;
+				password = jsonObject.password;
+				retypePassword = jsonObject.retypePassword;
+
+				// saveCookie();
+				clearFunc();	
+				//window.location.href = "index.html";			
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("loginResult").innerHTML = err.message;
+	}		
+}
+function clearFunc()
+{
+	// document.getElementById("registerFirstName").value="";
+	// document.getElementById("registerLastName").value="";
+	// document.getElementById("registerUserName").value="";
+	document.getElementById("registerPassword").value="";
+	document.getElementById("registerRetypePassword").value="";
 }
 
 function saveCookie()
