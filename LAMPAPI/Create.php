@@ -14,6 +14,7 @@
 	}
 	else
 	{
+		# inserts a contact to the table, matching ID with user's primary key
 		$stmt = $conn->prepare("INSERT INTO Contacts (ID, FirstName, LastName, PhoneNumber) VALUES (?, ?, ?, ?)");
 		$stmt->bind_param("isss", $inData["id"], $inData["firstName"], $inData["lastName"], $inData["phoneNumber"]);
 		$stmt->execute();

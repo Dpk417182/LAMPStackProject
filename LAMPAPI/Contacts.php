@@ -1,7 +1,7 @@
 <?php
 
 	$inData = getRequestInfo();
-	
+
 	$id = 0;
 	$firstName = "";
 	$lastName = "";
@@ -14,6 +14,7 @@
 	}
 	else
 	{
+		# selects all available contacts for a given user's ID (primary key)
 		$stmt = $conn->prepare("SELECT * FROM Contacts WHERE ID = ?");
 		$stmt->bind_param("i", $inData["id"]);
 		$stmt->execute();

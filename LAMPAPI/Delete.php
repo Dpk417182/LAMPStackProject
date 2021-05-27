@@ -14,6 +14,7 @@
 	}
 	else
 	{
+		# deletes a contact specified by first and last name which matches user's primary key
 		$stmt = $conn->prepare("DELETE FROM Contacts WHERE (FirstName = ? && LastName = ? && id = ?)");
 		$stmt->bind_param("iss", $inData["id"], $inData["firstName"], $inData["lastName"]);
 		$stmt->execute();
