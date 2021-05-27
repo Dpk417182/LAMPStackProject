@@ -1,8 +1,11 @@
-
 <?php
+
 	$inData = getRequestInfo();
+
+	$id = 0;
 	$firstName = "";
 	$lastName = "";
+	$phoneNumber = "";
 	
 	$conn = new mysqli("localhost", "APIUser", "ProjectOne", "COP4331"); 	
 	if( $conn->connect_error )
@@ -11,12 +14,12 @@
 	}
 	else
 	{
-		$stmt = $conn->prepare("INSERT INTO Users (FirstName, LastName, Login, Password) VALUES (?, ?, ?, ?)");
-		$stmt->bind_param("ssss", $inData["firstName"], $inData["lastName"], $inData["login"], $inData["password"]);
+		# inserts a contact to the table, matching ID with user's primary key
+		$stmt = $conn->prepare("INSERT INTO Contacts (ID, FirstName, LastName, PhoneNumber) VALUES (?, ?, ?, ?)");
+		$stmt->bind_param("isss", $inData["id"], $inData["firstName"], $inData["lastName"], $inData["phoneNumber"]);
 		$stmt->execute();
 		$stmt->close();
 		$conn->close();
-		$result = $stmt->get_result();
         returnWithError("1");
 	}
 	
