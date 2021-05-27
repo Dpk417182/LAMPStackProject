@@ -5,6 +5,7 @@ var userId = 0;
 var firstName = "";
 var lastName = "";
 
+
 function doLogin()
 {
 	userId = 0;
@@ -69,16 +70,35 @@ function goToRegisterPage()
 	window.location.href = "register.html";
 }
 
-function doRegister()
+function clearFunc()
 {
+	// document.getElementById("registerFirstName").value="";
+	// document.getElementById("registerLastName").value="";
+	// document.getElementById("registerUserName").value="";
+	document.getElementById("registerPassword").value="";
+	document.getElementById("registerRetypePassword").value="";
+}
 
+function doRegister(e)
+{
+	e.preventDefault();
 	var fName = document.getElementById("registerFirstName").value;
 	var lName = document.getElementById("registerLastName").value;
 	var userName = document.getElementById("registerUserName").value
 	var password = document.getElementById("registerPassword").value;
 	var retypePassword = document.getElementById("registerRetypePassword").value;
+	var retypePasswordVal = document.getElementById("registerRetypePassword");
+	var userNameVal = document.getElementById("registerUserName");
 
-	
+	if(password != retypePassword){
+		retypePasswordVal.setCustomValidity("Passwords don't match");
+		return;
+	}
+	else {
+		retypePasswordVal.setCustomValidity('');
+	}
+
+
 	document.getElementById("loginResult").innerHTML = "";
 
 	var jsonPayload = '{"firstName" : "' + fName + '", "lastName" : "'+ lName + '", "userName" : "' + userName + '", "password" : "' + password + '", "retypePassword" : "' + retypePassword + '"}';
@@ -93,50 +113,23 @@ function doRegister()
 		{
 			// readyState: 4 = request finished & response ready
 			// status: 4 = "OK"
+			
 			if(this.readyState == 4 && this.status == 200)
 			{
-				// var jsonObject = JSON.parse(xhr.responseText); // Returns text received from server following the request sent
-				// console.log("jsonObject: " + jsonObject);
-				// userId = jsonObject.id
+				var jsonObject = JSON.parse( xhr.responseText );
+				errid = jsonObject.errid;
+				console.log(errid);
+				if(errid == "1" )
+				{	
+					window.location.href = "./index.html";
+				}
+				else{
+					userNameVal.setCustomValidity("Username already exists");
+					document.getElementById("loginResult").innerHTML = "Username already exists";
+				}
 
-				if (fName == '')
-				{
-					document.getElementById("loginResult").innerHTML = "Please enter your first name";
-				}
-				else if(lName == '')
-				{
-					document.getElementById("loginResult").innerHTML = "Please enter your last name";
-				}
-				else if (userName == '')
-				{
-					document.getElementById("loginResult").innerHTML = "Please enter your Username";
-				}
-				else if (password == '')
-				{
-					document.getElementById("loginResult").innerHTML = "Please enter your password";
-				}
-				else if (retypePassword == '')
-				{
-					document.getElementById("loginResult").innerHTML = "Please enter your name";
-				}
-				else if (password != retypePassword)
-				{
-					document.getElementById("loginResult").innerHTML = "Passwords don't match";
-				}
-				else
-				{
-					window.location.href = "color.html";
-				}
-		
-				fName = jsonObject.firstName;
-				lName = jsonObject.lastName;
-				userName = jsonObject.userName;
-				password = jsonObject.password;
-				retypePassword = jsonObject.retypePassword;
-
-				// saveCookie();
 				clearFunc();	
-				//window.location.href = "index.html";			
+							
 			}
 		};
 		xhr.send(jsonPayload);
@@ -146,14 +139,7 @@ function doRegister()
 		document.getElementById("loginResult").innerHTML = err.message;
 	}		
 }
-function clearFunc()
-{
-	// document.getElementById("registerFirstName").value="";
-	// document.getElementById("registerLastName").value="";
-	// document.getElementById("registerUserName").value="";
-	document.getElementById("registerPassword").value="";
-	document.getElementById("registerRetypePassword").value="";
-}
+
 
 function saveCookie()
 {

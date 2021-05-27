@@ -1,10 +1,10 @@
 <?php
-// Hopefully this works. Need to make a register page before I can really test this
+// var jsonPayload = '{"firstName" : "' + fName + '", "lastName" : "'+ lName + '", "userName" : "' + userName + '", "password" : "' + password + '", "retypePassword" : "' + retypePassword + '"}';
 	$inData = getRequestInfo();
 
-	$firstname = $inData["FirstName"];
-	$lastname = $inData["LastName"];
-	$username = $inData["login"];
+	$firstname = $inData["firstName"];
+	$lastname = $inData["lastName"];
+	$username = $inData["userName"];
 	$password = $inData["password"];
 
 	$conn = new mysqli("localhost", "APIUser", "ProjectOne", "COP4331"); 
@@ -26,7 +26,7 @@
 		}
 		else
 		{
-			$stmt = $conn->prepare("INSERT into Users (DateCreated, FirstName, LastName, Login, Password) VALUES(CURRENT_TIMESTAMP,?,?,?,?)");
+			$stmt = $conn->prepare("INSERT into Users (DateCreated, firstName, lastName, Login, Password) VALUES(CURRENT_TIMESTAMP,?,?,?,?)");
 			$stmt->bind_param("ssss", $firstname, $lastname, $username, $password);
 			$stmt->execute();
 			returnWithError("1");
@@ -49,7 +49,7 @@
 	
 	function returnWithError( $err )
 	{
-		$retValue = '{"error":"' . $err . '"}';
+		$retValue = '{"errid":"' . $err . '"}';
 		sendResultInfoAsJson( $retValue );
 	}
 	
