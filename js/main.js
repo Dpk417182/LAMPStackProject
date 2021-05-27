@@ -59,6 +59,71 @@ function doLogin()
 	}
 
 }
+function doRegister()
+{
+
+	var fName = document.getElementById("registerFirstName").value;
+	var lName = document.getElementById("registerLastName").value;
+	
+	var userName = document.getElementById("registerUserName").value
+	var password = document.getElementById("registerPassword").value;
+	var retypePassword = document.getElementById("registerRetypePassword").value;
+
+	
+	// document.getElementById("loginResult").innerHTML = "";
+
+	// var jsonPayload = '{"firstName" : "' + fName '", "lastName" : "'+ lName '", "userName" : "' + userName '", "password" : "' + password + '", "retypePassword" : "' + retypePassword + '"}';
+	// var url = urlBase + '/Register' + extension;
+	// var xhr = new XMLHttpRequest();
+	// xhr.open("POST", url, true);
+	// xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8")
+
+				if (fName == '')
+				{
+					document.getElementById("loginResult").innerHTML = "Please enter your name";
+				}
+				else if (password == '')
+				{
+					document.getElementById("loginResult").innerHTML = "Please enter your name";
+				}
+				else if (userName == '')
+				{
+					document.getElementById("loginResult").innerHTML = "Please enter your Username";
+				}
+				else if (retypePassword == '')
+				{
+					document.getElementById("loginResult").innerHTML = "Please enter your name";
+				}
+				else if (password != retypePassword)
+				{
+					document.getElementById("loginResult").innerHTML = "Passwords don't match";
+				}
+				else
+				{
+					window.location.href = "test.html";
+				}
+				
+				// fName = jsonObject.firstName;
+				// lName = jsonObject.lastName;
+				// userName = jsonObject.userName;
+				// password = jsonObject.password;
+				// retypePassword = jsonObject.retypePassword;
+
+				// saveCookie();
+	
+				clearFunc();	
+				//window.location.href = "index.html";
+		
+}
+
+function clearFunc()
+{
+	// document.getElementById("registerFirstName").value="";
+	// document.getElementById("registerLastName").value="";
+	// document.getElementById("registerUserName").value="";
+	document.getElementById("registerPassword").value="";
+	document.getElementById("registerRetypePassword").value="";
+}
 
 function saveCookie()
 {
