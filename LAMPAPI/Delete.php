@@ -1,8 +1,11 @@
-
 <?php
+
 	$inData = getRequestInfo();
+
+	$id = 0;
 	$firstName = "";
 	$lastName = "";
+	$phoneNumber = "";
 	
 	$conn = new mysqli("localhost", "APIUser", "ProjectOne", "COP4331"); 	
 	if( $conn->connect_error )
@@ -11,8 +14,8 @@
 	}
 	else
 	{
-		$stmt = $conn->prepare("DELETE FROM Users WHERE (FirstName = ? && LastName = ?)");
-		$stmt->bind_param("ss", $inData["firstName"], $inData["lastName"]);
+		$stmt = $conn->prepare("DELETE FROM Contacts WHERE (FirstName = ? && LastName = ? && id = ?)");
+		$stmt->bind_param("iss", $inData["id"], $inData["firstName"], $inData["lastName"]);
 		$stmt->execute();
 		$stmt->close();
 		$conn->close();
