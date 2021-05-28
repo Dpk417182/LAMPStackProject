@@ -81,6 +81,7 @@ input[type="text"],input[type="password"]{
 }
 
 #inner-title{
+    display:inline-block;
     width: 90%;
     margin-bottom: 2%;
 
@@ -91,7 +92,7 @@ input[type="text"],input[type="password"]{
 }
 
 .innerText{
-    display: inline-block;
+    display:inline-block;
     width: 20%;
     margin-bottom: 2%;
 
