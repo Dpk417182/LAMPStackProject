@@ -9,20 +9,45 @@
 </head>
 
 <body>
-	<div id="buttonsGroup">
-	<h1 id="title">Personal Contact Manager</h1>
+	<div id="searchTop">
+		<button type="button" id="addButton" class="invertedButtons" onclick="doAdd();"> Add Contact </button>
+		<h1 id="title" class="inline">Personal Contact Manager</h1>
+		<button type="button" id="logoutButton" class="invertedButtons" onclick="doLogout();"> Logout </button>
 	</div>
+	
 	<div id="loginDiv">
-		<span id="inner-title">Please Log In</span>
-		<input type="text" id="loginName" placeholder="Username" /><br />
-		<input type="password" id="loginPassword" placeholder="Password" /><br />
-		<div id="buttonsGroup">
-			<div class="inlineButton"><button type="button" id="loginButton" class="buttons" onclick="doLogin();"> Login
-				</button></div>
-			<div class="inlineButton"><button type="button" id="registerButton" class="buttons" onclick="goToRegisterPage();">
-				Register </button></div>
+		<div id="searchBottom">
+			<input type="text" id="searchBar" placeholder="Search Criteria" />
+			<span class="innerText">Please Log In</span>
+			<button type="button" id="searchButton" class="buttons" onclick="doSearch();"> Search </button>
 		</div>
-		<span id="loginResult"></span>
+
+		<hr id="divider">
+
+		<table id="searchResultsTable">
+			<tr>
+			  <th>Firstname</th>
+			  <th>Lastname</th>
+			  <th></th>
+			  <th>Phone Number</th>
+			  <th></th>
+			</tr>
+			<tr>
+			  <td>Jill</td>
+			  <td>Smith</td>
+			  <td></td>
+			  <td>1112221414</td>
+			  <td></td>
+			</tr>
+			<tr>
+			  <td>Eve</td>
+			  <td>Jackson</td>
+			  <td></td>
+			  <td>1515257373</td>
+			  <td></td>
+			</tr>
+		</table> 
+		<span id="loginResult" class="innerText"></span>
 	</div>
 
 </body>

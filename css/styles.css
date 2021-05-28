@@ -1,4 +1,12 @@
 /*Follow this guide for formatting: https://css-tricks.com/poll-results-how-do-you-order-your-css-properties/*/
+/*Only use the following colors
+Dark Green  #379783
+Mid Green   #1CB64B (Only for button hover)
+Light Green #5CDB95
+Navy Blue   #05386B
+Off White   #EDF5E1
+*/
+
 body {
     background-color: #5CDB95;
 }
@@ -38,7 +46,27 @@ input[type="text"],input[type="password"]{
 
 .buttons:hover{
     color: #5CDB95;
-    background-color: #00d5124f;
+    background-color: #1CB64B;
+}
+
+.invertedButtons{
+    width: 15%;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 10px;
+    border-radius: 25px;
+    border: none;
+
+    color: #EDF5E1;
+    background-color: #379783;
+
+    font-size: 30px;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.invertedButtons:hover{
+    color: #05386B;
+    background-color: #1CB64B;
 }
 
 #loginDiv{
@@ -53,7 +81,6 @@ input[type="text"],input[type="password"]{
 }
 
 #inner-title{
-    display: inline-block;
     width: 90%;
     margin-bottom: 2%;
 
@@ -65,13 +92,34 @@ input[type="text"],input[type="password"]{
 
 .innerText{
     display: inline-block;
-    width: 90%;
+    width: 20%;
     margin-bottom: 2%;
 
     color: #EDF5E1;
     font-size: 0.8em;
     text-align: center;
     font-family: 'Ubuntu', sans-serif;
+}
+
+.inline{
+    display: inline-block;
+}
+
+#searchTop{
+    display: inline-block;
+    width: 100%;
+
+    text-align: center;
+}
+
+#searchBottom{
+    display: inline-block;
+    width: 100%;
+}
+
+#searchBar{
+    float: left;
+    width:40%;
 }
 
 #userName{
@@ -81,6 +129,38 @@ input[type="text"],input[type="password"]{
     text-align: center;
 }
 
-#logoutButton{
+#searchButton{
+    float:right;
+}
+
+#divider{
+    color:#05386B
+}
+
+#searchResultsTable{
+    width: 100%
+}
+
+tr { 
+    border: none; 
+}
+
+th{
+    display: inline-block;
     width: 20%;
+
+    color: #EDF5E1;
+    font-size: 1.5em;
+    text-align: center;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+td{
+    display: inline-block;
+    width: 20%;
+
+    color: #EDF5E1;
+    font-size: 1.5em;
+    text-align: center;
+    font-family: 'Ubuntu', sans-serif;
 }
