@@ -20,13 +20,13 @@
 		$stmt->bind_param("s", $username);
 		$stmt->execute();
 		$result = $stmt->get_result();
-		if($row = $result->fetch_assoc())
+		if($result->num_rows > 0)
 		{
-			returnWithError("0");
+			returnWithError("Login already exists");
 		}
 		else
 		{
-			$stmt = $conn->prepare("INSERT into Users (DateCreated, firstName, lastName, Login, Password) VALUES(CURRENT_TIMESTAMP,?,?,?,?)");
+			$stmt = $conn->prepare("INSERT into Users (DateCreated, FirstName, LastName, Login, Password) VALUES(CURRENT_TIMESTAMP,?,?,?,?)");
 			$stmt->bind_param("ssss", $firstname, $lastname, $username, $password);
 			$stmt->execute();
 			returnWithError("1");

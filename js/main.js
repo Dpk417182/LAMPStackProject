@@ -108,7 +108,7 @@ function doRegister(e)
 				console.log(errid);
 				if(errid == "1" )
 				{	
-					window.location.href = "./index.html";
+					goToLogin();
 				}
 				else{
 					userNameVal.setCustomValidity("Username already exists");
