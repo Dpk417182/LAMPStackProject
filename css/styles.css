@@ -26,7 +26,6 @@ input[type="text"],input[type="password"]{
     border-radius: 25px;
     text-align: center;
     width: 80%;
-    margin-left: 10%;
     margin-bottom: 2%;
     font-family: 'Ubuntu', sans-serif;
     font-size: 30px;
@@ -38,7 +37,7 @@ input[type="text"],input[type="password"]{
 {
     font-size: 30px;
     border-radius: 25px;
-    width: 100%;
+    width: 25%;
     background-color: #5CDB95;
     border: none;
     color: #05386B;
@@ -52,18 +51,6 @@ input[type="text"],input[type="password"]{
     opacity: 100%;
 }
 
-.inlineButton
-{
-    display: inline-block;
-    width: 25%;
-}
-
-#buttonsGroup
-{
-    width: 100%;
-    text-align: center;
-}
-
 #loginDiv
 {
     margin: auto;
@@ -72,6 +59,7 @@ input[type="text"],input[type="password"]{
     width: 70%;
     padding: 25px;
     background-color: #379783;
+    text-align: center;
 }
 
 #inner-title{
@@ -79,7 +67,6 @@ input[type="text"],input[type="password"]{
     font-size: 0.8em;
     width: 90%;
     text-align: center;
-    margin-left: 5%;
     margin-bottom: 2%;
     font-family: 'Ubuntu', sans-serif;
     color: #EDF5E1;
@@ -90,7 +77,6 @@ input[type="text"],input[type="password"]{
     font-size: 0.8em;
     width: 90%;
     text-align: center;
-    margin-left: 5%;
     margin-bottom: 2%;
     font-family: 'Ubuntu', sans-serif;
     color: #EDF5E1;
@@ -99,40 +85,9 @@ input[type="text"],input[type="password"]{
 #userName{
     display: inline-block;
     width: 80%;
-    margin-left: 10%;
     text-align: center;
 }
 
 #logoutButton{
     width: 20%;
-    margin-left: 40%;
-}
-
-#searchDiv
-{
-    margin: auto;
-    border-radius: 25px;
-    font-size: 30px;
-    width: 70%;
-    padding: 25px;
-    background-color: #379783;
-}
-
-#searchName
-{
-    color: #05386B;
-	font-size: 30px;
-    border: none;
-}
-
-#searchBar { 
-    position: relative; width:80%; margin-left: 0%;
-}
-
-#searchBar input { 
-    border:none; display:block; width: 100%; box-sizing: border-box; outline: none;
-}
-
-#searchBar img { 
-    position: absolute; top: 10%; left: 15% ;
 }
