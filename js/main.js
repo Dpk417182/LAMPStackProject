@@ -32,6 +32,15 @@ function doLogin()
 				var jsonObject = JSON.parse( xhr.responseText );
 				userId = jsonObject.id;
 				
+				//firstindexFirstname = jsonObject[0].FirstName;
+				//firstindexLastName = jsonObject[0].LastName;
+				//firstindexPhoneNumber = jsonObject[0].PhoneNumber;
+				//firstindexFirstname = jsonObject[1].FirstName;
+				//firstindexLastName = jsonObject[1].LastName;
+				//firstindexPhoneNumber = jsonObject[1].PhoneNumber;
+				
+
+				
 				if( userId < 1 )
 				{		
 					document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
