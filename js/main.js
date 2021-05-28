@@ -14,12 +14,11 @@ function doLogin()
 	
 	var login = document.getElementById("loginName").value;
 	var password = document.getElementById("loginPassword").value;
-//	var hash = md5( password );
+	var hash = md5( password );
 	
 	document.getElementById("loginResult").innerHTML = "";
 
-//	var jsonPayload = '{"login" : "' + login + '", "password" : "' + hash + '"}';
-	var jsonPayload = '{"login" : "' + login + '", "password" : "' + password + '"}';
+	var jsonPayload = '{"login" : "' + login + '", "password" : "' + hash + '"}';
 	var url = urlBase + '/Login' + extension;
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -31,14 +30,11 @@ function doLogin()
 			if (this.readyState == 4 && this.status == 200) 
 			{
 				var jsonObject = JSON.parse( xhr.responseText );
-				// console.log("jsonObject: " + jsonObject);
-				userId = jsonObject.id
+				userId = jsonObject.id;
 				
 				if( userId < 1 )
 				{		
-					
 					document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
-					// document.getElementById("loginResult").innerHTML = "User/Password combination incorrect: " + jsonObject.error;
 					return;
 				}
 		
@@ -62,21 +58,12 @@ function doLogin()
 
 function goToLogin()
 {
-	window.location.href = "index.html";
+	window.location.href = "./index.html";
 }
 
 function goToRegisterPage()
 {
-	window.location.href = "register.html";
-}
-
-function clearFunc()
-{
-	// document.getElementById("registerFirstName").value="";
-	// document.getElementById("registerLastName").value="";
-	// document.getElementById("registerUserName").value="";
-	document.getElementById("registerPassword").value="";
-	document.getElementById("registerRetypePassword").value="";
+	window.location.href = "./register.html";
 }
 
 function doRegister(e)
@@ -100,8 +87,8 @@ function doRegister(e)
 
 
 	document.getElementById("loginResult").innerHTML = "";
-
-	var jsonPayload = '{"firstName" : "' + fName + '", "lastName" : "'+ lName + '", "userName" : "' + userName + '", "password" : "' + password + '", "retypePassword" : "' + retypePassword + '"}';
+	var hash = md5( password );
+	var jsonPayload = '{"firstName" : "' + fName + '", "lastName" : "'+ lName + '", "userName" : "' + userName + '", "password" : "' + hash + '", "retypePassword" : "' + retypePassword + '"}';
 	var url = urlBase + '/Register' + extension;
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true); // Opens up connection
@@ -128,7 +115,8 @@ function doRegister(e)
 					document.getElementById("loginResult").innerHTML = "Username already exists";
 				}
 
-				clearFunc();	
+				document.getElementById("registerPassword").value="";
+				document.getElementById("registerRetypePassword").value="";	
 							
 			}
 		};
