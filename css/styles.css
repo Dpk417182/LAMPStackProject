@@ -50,9 +50,8 @@ input[type="text"],input[type="password"]{
 }
 
 .invertedButtons{
+    margin-top: 5%;
     width: 15%;
-    margin-left: 5%;
-    margin-right: 5%;
     padding: 10px;
     border-radius: 25px;
     border: none;
@@ -107,13 +106,23 @@ input[type="text"],input[type="password"]{
 }
 
 #searchTop{
-    display: inline-block;
     width: 100%;
 
     text-align: center;
 }
 
+#addButton{
+    margin-left: 15%;
+    float: left;
+}
+
+#logoutButton{
+    margin-right: 15%;
+    float: right;
+}
+
 #searchBottom{
+    height: 10%;
     display: inline-block;
     width: 100%;
 }
