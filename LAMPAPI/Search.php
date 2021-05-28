@@ -1,18 +1,17 @@
 <?php
-    $inc = 0;
+    
     function retrieveRecords($result) {
-                            
+        $inc = 0;
+        $temp = array();        
         if($result->num_rows > 0){
-            $rows = array();
-
-            while ($row = $result->fetch_assoc() && $inc < 20) {
+            while (($row = $result->fetch_assoc()) && ($inc < 20)) {
                 $jsonArrayObject = (array('ID' => $row["ID"], 'FirstName' => $row["FirstName"], 'LastName' => $row["LastName"], 'PhoneNumber' => $row["PhoneNumber"]));
-                $rows[$inc] = $jsonArrayObject;
+                $temp[$inc] = $jsonArrayObject;
                 $inc++;
             }
         }
-        return $rows;
-      }
+        return $temp;
+    }
 
 
 
@@ -27,64 +26,49 @@
 	}
 	else
 	{
-
         $temp = $inData["search"];
         $search = explode(" ", $temp);
-        if(count($search) > 1)
-        {
+        if(count($search) == 1){
+            $temp = "%" . $search[0] . "%";
+            $rows = array();
+            $stmt = $conn->prepare("SELECT * FROM Contacts WHERE ID = ? AND (FirstName LIKE ? OR LastName LIKE ? OR PhoneNumber LIKE ?)");
+            $stmt->bind_param("isss", $inData["id"], $temp, $temp, $temp);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $rows = retrieveRecords($result);
 
+            sendResultInfoAsJson($rows);
+
+        }
+        else if(count($search) == 2){
+            $temp = "%" . $search[0] . "%";
+            $temp2 = "%" . $search[1] . "%";
+            $rows = array();
+            $stmt = $conn->prepare("SELECT * FROM Contacts WHERE ID = ? AND (FirstName LIKE ? OR LastName LIKE ? OR PhoneNumber LIKE ?) AND (FirstName LIKE ? OR LastName LIKE ? OR PhoneNumber LIKE ?)");
+            $stmt->bind_param("issssss", $inData["id"], $temp, $temp, $temp, $temp2, $temp2, $temp2);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $rows = retrieveRecords($result);
+
+            sendResultInfoAsJson($rows);
+        }
+        else if(count($search) == 3){
+            $temp = "%" . $search[0] . "%";
+            $temp2 = "%" . $search[1] . "%";
+            $temp3 = "%" . $search[2] . "%";
+            $rows = array();
+            $stmt = $conn->prepare("SELECT * FROM Contacts WHERE ID = ? AND (FirstName LIKE ? OR LastName LIKE ? OR PhoneNumber LIKE ?) AND (FirstName LIKE ? OR LastName LIKE ? OR PhoneNumber LIKE ?) AND (FirstName LIKE ? OR LastName LIKE ? OR PhoneNumber LIKE ?)");
+            $stmt->bind_param("isssssssss", $inData["id"], $temp, $temp, $temp, $temp2, $temp2, $temp2, $temp3, $temp3, $temp3);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $rows = retrieveRecords($result);
+
+            sendResultInfoAsJson($rows);
         }
         else
         {
-            $temp = "%" . $search[0] . "%";
-            // echo $temp;
-            $rows = array();
-            $stmt = $conn->prepare("SELECT * FROM Contacts WHERE ID = ? AND FirstName LIKE ?");
-            $stmt->bind_param("is", $inData["id"], $temp);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $rows += retrieveRecords($result);
-
-            $stmt = $conn->prepare("SELECT * FROM Contacts WHERE ID = ? AND LastName LIKE ?");
-            $stmt->bind_param("is", $inData["id"], $temp);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $rows += retrieveRecords($result);
-            
-            $stmt = $conn->prepare("SELECT * FROM Contacts WHERE ID = ? AND PhoneNumber LIKE ?");
-            $stmt->bind_param("is", $inData["id"], $temp);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $rows += retrieveRecords($result);
-
-
-            
-            sendResultInfoAsJson($rows);
+            returnWithError("Cannot process more than 3 search criteria");
         }
-
-		# selects all available contacts for a given user's ID (primary key)
-		// $stmt = $conn->prepare("SELECT * FROM Contacts WHERE ID = ?");
-		// $stmt->bind_param("i", $inData["id"]);
-		// $stmt->execute();
-		// $result = $stmt->get_result();
-
-		// if($result->num_rows > 0)
-		// {
-			
-		// 	$rows = array();
-						
-        //     $inc = 0;
-        //     while ($row = $result->fetch_assoc()) {
-        //         $jsonArrayObject = (array('ID' => $row["ID"], 'FirstName' => $row["FirstName"], 'LastName' => $row["LastName"], 'PhoneNumber' => $row["PhoneNumber"]));
-        //         $rows[$inc] = $jsonArrayObject;
-        //         $inc++;
-        //     }
-		// 	sendResultInfoAsJson($rows);
-		// }
-		// else
-		// {
-		// 	returnWithError("No Records Found");
-		// }
 
 		$stmt->close();
 		$conn->close();
