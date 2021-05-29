@@ -1,11 +1,6 @@
 <?php
 
 	$inData = getRequestInfo();
-
-	$id = 0;
-	$firstName = "";
-	$lastName = "";
-	$phoneNumber = "";
 	
 	$conn = new mysqli("localhost", "APIUser", "ProjectOne", "COP4331"); 	
 	if( $conn->connect_error )
@@ -15,8 +10,8 @@
 	else
 	{
 		# deletes a contact specified by first and last name which matches user's primary key
-		$stmt = $conn->prepare("DELETE FROM Contacts WHERE (id = ? && FirstName = ? && LastName = ?)");
-		$stmt->bind_param("iss", $inData["id"], $inData["firstName"], $inData["lastName"]);
+		$stmt = $conn->prepare("DELETE FROM Contacts WHERE (ID = ? && FirstName = ? && LastName = ? && PhoneNumber = ?)");
+		$stmt->bind_param("isss", $inData["id"], $inData["firstName"], $inData["lastName"], $inData["phoneNumber"]);
 		$stmt->execute();
 		$stmt->close();
 		$conn->close();
