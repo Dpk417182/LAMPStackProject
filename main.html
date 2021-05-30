@@ -17,9 +17,9 @@
 	
 	<div id="loginDiv">
 		<div id="searchBottom">
-			<input type="text" id="searchBar" placeholder="Search Criteria" />
-			<span class="innerText">Please Log In</span>
-			<button type="button" id="searchButton" class="buttons" onclick="doSearch();"> Search </button>
+			<input type="text" id="searchBar" placeholder="Enter name" />
+			<span class="innerText" id="searchText">PLACEHOLDER</span>
+			<button type="button" id="searchButton" class="buttons" onclick="doSearch();"> Search! </button>
 		</div>
 
 		<hr id="divider">
@@ -28,21 +28,20 @@
 			<tr>
 			  <th>Firstname</th>
 			  <th>Lastname</th>
-			  <th></th>
 			  <th>Phone Number</th>
 			  <th></th>
 			</tr>
 			<tr>
 			  <td>Jill</td>
 			  <td>Smith</td>
-			  <td></td>
 			  <td>1112221414</td>
-			  <td></td>
+			  <td id="buttonCell">
+				  <button type="button" id="editButton" class="invertedMiniButtons" onclick="doEdit();"> Edit </button>
+				  <button type="button" id="editButton" class="invertedMiniButtons" onclick="doDelete();"> Delete </button></td>
 			</tr>
 			<tr>
 			  <td>Eve</td>
 			  <td>Jackson</td>
-			  <td></td>
 			  <td>1515257373</td>
 			  <td></td>
 			</tr>
