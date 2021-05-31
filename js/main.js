@@ -52,7 +52,7 @@ function doLogin()
 
 				saveCookie();
 	
-				window.location.href = "test.html";
+				window.location.href = "./main.html";
 				
 			}
 		};
@@ -171,7 +171,7 @@ function readCookie()
 	
 	if( userId < 0 )
 	{
-		function goToLogin();
+		goToLogin();
 	}
 	else
 	{
@@ -185,7 +185,7 @@ function doLogout()
 	firstName = "";
 	lastName = "";
 	document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-	function goToLogin();
+	goToLogin();
 }
 
 // function addColor()
