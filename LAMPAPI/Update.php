@@ -14,13 +14,13 @@
 	}
 	else
 	{
-		# deletes a contact specified by first and last name which matches user's primary key
-		$stmt = $conn->prepare("DELETE FROM Contacts WHERE (id = ? && FirstName = ? && LastName = ?)");
-		$stmt->bind_param("iss", $inData["id"], $inData["firstName"], $inData["lastName"]);
+		# inserts a contact to the table, matching ID with user's primary key
+		$stmt = $conn->prepare("UPDATE Contacts SET firstName = ?, lastName = ?, phoneNumber = ? WHERE id = ?");
+		$stmt->bind_param("sssi", $inData["firstName"], $inData["lastName"], $inData["phoneNumber"], $inData["id"]);
 		$stmt->execute();
 		$stmt->close();
 		$conn->close();
-		returnWithError("1");
+        returnWithError("1");
 	}
 	
 	function getRequestInfo()
@@ -37,7 +37,7 @@
 	
 	function returnWithError( $err )
 	{
-		# error value 1 is a successful delete
+		# error value 1 is a successful update
 		$retValue = '{"error":"' . $err . '"}';
 		sendResultInfoAsJson( $retValue );
 	}
