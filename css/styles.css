@@ -1,138 +1,204 @@
-/*
-This is organized first by general use styling such as the background,
-then grouped by which page a style is used on, in the following order:
-index.html (login page), register.html (registration page), main.html
-(the contact lookup page).*/
-/*
-A lot of the styling looks the same but with just different names. This
-should help with the javascript end of things.
+/*Follow this guide for formatting: https://css-tricks.com/poll-results-how-do-you-order-your-css-properties/*/
+/*Only use the following colors
+Dark Green  #379783
+Mid Green   #1CB64B (Only for button hover)
+Light Green #5CDB95
+Navy Blue   #05386B
+Off White   #EDF5E1
 */
-body 
-{
+
+body {
     background-color: #5CDB95;
 }
 
-#title 
-{
-    font-size: 40px;
-    width: 100%;
-    text-align: center;
+#title {    
     margin-top: 5%;
-    font-family: 'Ubuntu', sans-serif;
+
     color: #05386B;
+    font-size: 40px;
+    text-align: center;
+    font-family: 'Ubuntu', sans-serif;
 }
 
 input[type="text"],input[type="password"]{
-    border-radius: 25px;
-    text-align: center;
     width: 80%;
-    margin-left: 10%;
+    border-radius: 25px;
     margin-bottom: 2%;
-    font-family: 'Ubuntu', sans-serif;
-    font-size: 30px;
-    color: #05386B;
     outline: none;
+
+    color: #05386B;
+    font-size: 30px;
+    text-align: center;
+    font-family: 'Ubuntu', sans-serif;
 }
 
-.buttons
-{
-    font-size: 30px;
-    border-radius: 25px;
-    width: 100%;
-    background-color: #5CDB95;
-    border: none;
-    color: #05386B;
+.buttons{
+    width: 25%;
     padding: 10px;
+    border-radius: 25px;
+    border: none;
+
+    color: #05386B;
+    background-color: #5CDB95;
+    font-size: 30px;
     font-family: 'Ubuntu', sans-serif;
 }
 
 .buttons:hover{
-    background-color: #00d5124f;
     color: #5CDB95;
-    opacity: 100%;
+    background-color: #1CB64B;
 }
 
-.inlineButton
-{
-    display: inline-block;
-    width: 25%;
-}
-
-#buttonsGroup
-{
-    width: 100%;
-    text-align: center;
-}
-
-#loginDiv
-{
-    margin: auto;
+.invertedButtons{
+    margin-top: 5%;
+    width: 15%;
+    padding: 10px;
     border-radius: 25px;
+    border: none;
+
+    color: #EDF5E1;
+    background-color: #379783;
+
     font-size: 30px;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.invertedButtons:hover{
+    color: #05386B;
+    background-color: #1CB64B;
+}
+
+.invertedMiniButtons{
+    display:inline-block;
+    width: 40%;
+    padding: 0px;
+    border-radius: 25px;
+    border: none;
+
+    color: #EDF5E1;
+    background-color: #379783;
+
+    font-size: 25px;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.invertedMiniButtons:hover{
+    color: #05386B;
+}
+
+#loginDiv{
     width: 70%;
     padding: 25px;
+    border-radius: 25px;
+    margin: auto;
+
     background-color: #379783;
+    font-size: 30px;
+    text-align: center;
 }
 
 #inner-title{
-    display: inline-block;
-    font-size: 0.8em;
+    display:inline-block;
     width: 90%;
-    text-align: center;
-    margin-left: 5%;
     margin-bottom: 2%;
-    font-family: 'Ubuntu', sans-serif;
+
     color: #EDF5E1;
+    font-size: 0.8em;
+    text-align: center;
+    font-family: 'Ubuntu', sans-serif;
 }
 
-#loginResult{
-    display: inline-block;
-    font-size: 0.8em;
-    width: 90%;
-    text-align: center;
-    margin-left: 5%;
+.innerText{
+    display:inline-block;
+    width: 20%;
     margin-bottom: 2%;
-    font-family: 'Ubuntu', sans-serif;
+
     color: #EDF5E1;
+    font-size: 0.8em;
+    text-align: center;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.inline{
+    display: inline-block;
+}
+
+#searchTop{
+    width: 100%;
+
+    text-align: center;
+}
+
+#searchText{
+    font-size: 15px;
+}
+
+#addButton{
+    margin-left: 15%;
+    float: left;
+}
+
+#logoutButton{
+    margin-right: 15%;
+    float: right;
+}
+
+#searchBottom{
+    height: 60px;
+    line-height: 60px;
+    display: inline-block;
+    width: 100%;
+}
+
+#searchBar{
+    height: 100%;
+    float: left;
+    width:40%;
 }
 
 #userName{
     display: inline-block;
     width: 80%;
-    margin-left: 10%;
+    
     text-align: center;
 }
 
-#logoutButton{
-    width: 20%;
-    margin-left: 40%;
+#searchButton{
+    float:right;
 }
 
-#searchDiv
-{
-    margin: auto;
-    border-radius: 25px;
-    font-size: 30px;
-    width: 70%;
-    padding: 25px;
-    background-color: #379783;
+#divider{
+    color:#05386B
 }
 
-#searchName
-{
-    color: #05386B;
-	font-size: 30px;
-    border: none;
+#searchResultsTable{
+    width: 100%
 }
 
-#searchBar { 
-    position: relative; width:80%; margin-left: 0%;
+tr { 
+    border: none; 
 }
 
-#searchBar input { 
-    border:none; display:block; width: 100%; box-sizing: border-box; outline: none;
+th{
+    display: inline-block;
+    width: 22%;
+
+    color: #EDF5E1;
+    font-size: 25px;
+    text-align: left;
+    font-family: 'Ubuntu', sans-serif;
 }
 
-#searchBar img { 
-    position: absolute; top: 10%; left: 15% ;
+td{
+    display: inline-block;
+    width: 22%;
+
+    color: #EDF5E1;
+    font-size: 25px;
+    text-align: left;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+#buttonCell{
+    text-align: right;
 }

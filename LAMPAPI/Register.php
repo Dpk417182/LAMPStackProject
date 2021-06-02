@@ -1,10 +1,10 @@
 <?php
-// Hopefully this works. Need to make a register page before I can really test this
+// var jsonPayload = '{"firstName" : "' + fName + '", "lastName" : "'+ lName + '", "userName" : "' + userName + '", "password" : "' + password + '", "retypePassword" : "' + retypePassword + '"}';
 	$inData = getRequestInfo();
 
-	$firstname = $inData["FirstName"];
-	$lastname = $inData["LastName"];
-	$username = $inData["login"];
+	$firstname = $inData["firstName"];
+	$lastname = $inData["lastName"];
+	$username = $inData["userName"];
 	$password = $inData["password"];
 
 	$conn = new mysqli("localhost", "APIUser", "ProjectOne", "COP4331"); 
@@ -20,9 +20,9 @@
 		$stmt->bind_param("s", $username);
 		$stmt->execute();
 		$result = $stmt->get_result();
-		if($row = $result->fetch_assoc())
+		if($result->num_rows > 0)
 		{
-			returnWithError("0");
+			returnWithError("Login already exists");
 		}
 		else
 		{
@@ -49,7 +49,7 @@
 	
 	function returnWithError( $err )
 	{
-		$retValue = '{"error":"' . $err . '"}';
+		$retValue = '{"errid":"' . $err . '"}';
 		sendResultInfoAsJson( $retValue );
 	}
 	

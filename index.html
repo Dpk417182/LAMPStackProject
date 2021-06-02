@@ -4,13 +4,8 @@
 	<title>Personal Contact Manager</title>
 	<script type="text/javascript" src="js/md5.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
-<<<<<<< HEAD
     <link href="css/styles.css" rel="stylesheet">	
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-=======
-	<link href="css/styles.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
->>>>>>> b46328b928bfe6c702bb58d4ab303daf989035d1
 </head>
 
 <body>
@@ -18,16 +13,12 @@
 	<h1 id="title">Personal Contact Manager</h1>
 
 	<div id="loginDiv">
-		<span id="inner-title">Please Log In</span>
+		<span class="innerText">Please Log In</span><br/>
 		<input type="text" id="loginName" placeholder="Username" /><br />
 		<input type="password" id="loginPassword" placeholder="Password" /><br />
-		<div id="buttonsGroup">
-			<div class="inlineButton"><button type="button" id="loginButton" class="buttons" onclick="doLogin();"> Login
-				</button></div>
-			<div class="inlineButton"><button type="button" id="registerButton" class="buttons" onclick="goToRegisterPage();">
-				Register </button></div>
-		</div>
-		<span id="loginResult"></span>
+		<button type="button" id="loginButton" class="buttons" onclick="doLogin();"> Login</button>
+		<button type="button" id="registerButton" class="buttons" onclick="goToRegisterPage();">Register </button><br/>
+		<span id="loginResult" class="innerText"></span>
 	</div>
 
 </body>

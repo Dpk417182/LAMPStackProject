@@ -1,0 +1,54 @@
+<html>
+
+<head>
+	<title>Personal Contact Manager</title>
+	<script type="text/javascript" src="js/md5.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+    <link href="css/styles.css" rel="stylesheet">	
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+</head>
+
+<body>
+	<div id="searchTop">
+		<button type="button" id="addButton" class="invertedButtons" onclick="doAdd();"> Add Contact </button>
+		<h1 id="title" class="inline">Personal Contact Manager</h1>
+		<button type="button" id="logoutButton" class="invertedButtons" onclick="doLogout();"> Logout </button>
+	</div>
+	
+	<div id="loginDiv">
+		<div id="searchBottom">
+			<input type="text" id="searchBar" placeholder="Enter name" />
+			<span class="innerText" id="searchText">PLACEHOLDER</span>
+			<button type="button" id="searchButton" class="buttons" onclick="doSearch();"> Search! </button>
+		</div>
+
+		<hr id="divider">
+
+		<table id="searchResultsTable">
+			<tr>
+			  <th>Firstname</th>
+			  <th>Lastname</th>
+			  <th>Phone Number</th>
+			  <th></th>
+			</tr>
+			<tr>
+			  <td>Jill</td>
+			  <td>Smith</td>
+			  <td>1112221414</td>
+			  <td id="buttonCell">
+				  <button type="button" id="editButton" class="invertedMiniButtons" onclick="doEdit();"> Edit </button>
+				  <button type="button" id="editButton" class="invertedMiniButtons" onclick="doDelete();"> Delete </button></td>
+			</tr>
+			<tr>
+			  <td>Eve</td>
+			  <td>Jackson</td>
+			  <td>1515257373</td>
+			  <td></td>
+			</tr>
+		</table> 
+		<span id="loginResult" class="innerText"></span>
+	</div>
+
+</body>
+
+</html>

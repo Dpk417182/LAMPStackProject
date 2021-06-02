@@ -2,10 +2,13 @@
 
 	$inData = getRequestInfo();
 
-	$id = 0;
-	$firstName = "";
-	$lastName = "";
-	$phoneNumber = "";
+    $id = $inData["id"];        
+    $firstName = $inData["firstName"];          
+    $lastName = $inData["lastName"];            
+    $PhoneNumber = $inData["PhoneNumber"];      
+    $newFirstName = $inData["newFirstName"];     
+    $newLastName = $inData["newLastName"];      
+    $newPhoneNumber = $inData["newPhoneNumber"];
 	
 	$conn = new mysqli("localhost", "APIUser", "ProjectOne", "COP4331"); 	
 	if( $conn->connect_error )
@@ -14,9 +17,20 @@
 	}
 	else
 	{
-		# inserts a contact to the table, matching ID with user's primary key
-		$stmt = $conn->prepare("UPDATE Contacts SET firstName = ?, lastName = ?, phoneNumber = ? WHERE id = ?");
-		$stmt->bind_param("sssi", $inData["firstName"], $inData["lastName"], $inData["phoneNumber"], $inData["id"]);
+        # if no new data provided, copy in old data
+        if ($newFirstName == "") {
+            $newFirstName = $firstName;
+        }
+        if ($newLastName == "") {
+            $newLastName = $lastName;
+        }
+        if ($newPhoneNumber == "") {
+            $newPhoneNumber = $PhoneNumber;
+        }
+
+		# updates a contact to the table
+		$stmt = $conn->prepare("UPDATE Contacts SET firstName = ?, lastName = ?, PhoneNumber = ? WHERE (id = ? && firstName = ? && lastName = ? && PhoneNumber = ?)");
+		$stmt->bind_param("sssisss", $newFirstName, $newLastName, $newPhoneNumber, $id, $firstName, $lastName, $PhoneNumber);
 		$stmt->execute();
 		$stmt->close();
 		$conn->close();

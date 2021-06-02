@@ -5,6 +5,7 @@ var userId = 0;
 var firstName = "";
 var lastName = "";
 
+
 function doLogin()
 {
 	userId = 0;
@@ -13,12 +14,11 @@ function doLogin()
 	
 	var login = document.getElementById("loginName").value;
 	var password = document.getElementById("loginPassword").value;
-//	var hash = md5( password );
+	var hash = md5( password );
 	
 	document.getElementById("loginResult").innerHTML = "";
 
-//	var jsonPayload = '{"login" : "' + login + '", "password" : "' + hash + '"}';
-	var jsonPayload = '{"login" : "' + login + '", "password" : "' + password + '"}';
+	var jsonPayload = '{"login" : "' + login + '", "password" : "' + hash + '"}';
 	var url = urlBase + '/Login' + extension;
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -30,14 +30,20 @@ function doLogin()
 			if (this.readyState == 4 && this.status == 200) 
 			{
 				var jsonObject = JSON.parse( xhr.responseText );
-				// console.log("jsonObject: " + jsonObject);
-				userId = jsonObject.id
+				userId = jsonObject.id;
+				
+				//firstindexFirstname = jsonObject[0].FirstName;
+				//firstindexLastName = jsonObject[0].LastName;
+				//firstindexPhoneNumber = jsonObject[0].PhoneNumber;
+				//firstindexFirstname = jsonObject[1].FirstName;
+				//firstindexLastName = jsonObject[1].LastName;
+				//firstindexPhoneNumber = jsonObject[1].PhoneNumber;
+				
+
 				
 				if( userId < 1 )
 				{		
-					
 					document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
-					// document.getElementById("loginResult").innerHTML = "User/Password combination incorrect: " + jsonObject.error;
 					return;
 				}
 		
@@ -46,7 +52,7 @@ function doLogin()
 
 				saveCookie();
 	
-				window.location.href = "test.html";
+				window.location.href = "./main.html";
 				
 			}
 		};
@@ -61,79 +67,76 @@ function doLogin()
 
 function goToLogin()
 {
-	window.location.href = "index.html";
+	window.location.href = "./index.html";
 }
 
 function goToRegisterPage()
 {
-	window.location.href = "register.html";
+	window.location.href = "./register.html";
 }
 
-function doRegister()
+function doRegister(e)
 {
-
+	e.preventDefault();
 	var fName = document.getElementById("registerFirstName").value;
 	var lName = document.getElementById("registerLastName").value;
-	
 	var userName = document.getElementById("registerUserName").value
 	var password = document.getElementById("registerPassword").value;
 	var retypePassword = document.getElementById("registerRetypePassword").value;
+	var retypePasswordVal = document.getElementById("registerRetypePassword");
+	var userNameVal = document.getElementById("registerUserName");
 
-	
-	// document.getElementById("loginResult").innerHTML = "";
+	if(password != retypePassword){
+		retypePasswordVal.setCustomValidity("Passwords don't match");
+		return;
+	}
+	else {
+		retypePasswordVal.setCustomValidity('');
+	}
 
-	// var jsonPayload = '{"firstName" : "' + fName '", "lastName" : "'+ lName '", "userName" : "' + userName '", "password" : "' + password + '", "retypePassword" : "' + retypePassword + '"}';
-	// var url = urlBase + '/Register' + extension;
-	// var xhr = new XMLHttpRequest();
-	// xhr.open("POST", url, true);
-	// xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8")
 
-				if (fName == '')
-				{
-					document.getElementById("loginResult").innerHTML = "Please enter your name";
-				}
-				else if (password == '')
-				{
-					document.getElementById("loginResult").innerHTML = "Please enter your name";
-				}
-				else if (userName == '')
-				{
-					document.getElementById("loginResult").innerHTML = "Please enter your Username";
-				}
-				else if (retypePassword == '')
-				{
-					document.getElementById("loginResult").innerHTML = "Please enter your name";
-				}
-				else if (password != retypePassword)
-				{
-					document.getElementById("loginResult").innerHTML = "Passwords don't match";
-				}
-				else
-				{
-					window.location.href = "test.html";
-				}
-				
-				// fName = jsonObject.firstName;
-				// lName = jsonObject.lastName;
-				// userName = jsonObject.userName;
-				// password = jsonObject.password;
-				// retypePassword = jsonObject.retypePassword;
+	document.getElementById("loginResult").innerHTML = "";
+	var hash = md5( password );
+	var jsonPayload = '{"firstName" : "' + fName + '", "lastName" : "'+ lName + '", "userName" : "' + userName + '", "password" : "' + hash + '", "retypePassword" : "' + retypePassword + '"}';
+	var url = urlBase + '/Register' + extension;
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true); // Opens up connection
 
-				// saveCookie();
-	
-				clearFunc();	
-				//window.location.href = "index.html";
-		
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8") // Sets type of content to be sent.
+	try
+	{
+		xhr.onreadystatechange = function()
+		{
+			// readyState: 4 = request finished & response ready
+			// status: 4 = "OK"
+			
+			if(this.readyState == 4 && this.status == 200)
+			{
+				var jsonObject = JSON.parse( xhr.responseText );
+				errid = jsonObject.errid;
+				console.log(errid);
+				if(errid == "1" )
+				{	
+					goToLogin();
+				}
+				else{
+					userNameVal.setCustomValidity("Username already exists");
+					document.getElementById("loginResult").innerHTML = "Username already exists";
+				}
+
+				document.getElementById("registerPassword").value="";
+				document.getElementById("registerRetypePassword").value="";	
+							
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("loginResult").innerHTML = err.message;
+	}		
 }
 
-function clearFunc()
-{
-	// document.getElementById("registerFirstName").value="";
-	// document.getElementById("registerLastName").value="";
-	// document.getElementById("registerUserName").value="";
-	document.getElementById("registerPassword").value="";
-	document.getElementById("registerRetypePassword").value="";
-}
 
 function saveCookie()
 {
@@ -168,7 +171,7 @@ function readCookie()
 	
 	if( userId < 0 )
 	{
-		window.location.href = "index.html";
+		goToLogin();
 	}
 	else
 	{
@@ -182,7 +185,7 @@ function doLogout()
 	firstName = "";
 	lastName = "";
 	document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-	window.location.href = "index.html";
+	goToLogin();
 }
 
 // function addColor()

@@ -3,9 +3,6 @@
 	$inData = getRequestInfo();
 
 	$id = 0;
-	$firstName = "";
-	$lastName = "";
-	$phoneNumber = "";
 	
 	$conn = new mysqli("localhost", "APIUser", "ProjectOne", "COP4331"); 	
 	if( $conn->connect_error )
