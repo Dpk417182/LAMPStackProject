@@ -137,6 +137,102 @@ function doRegister(e)
 	}		
 }
 
+function myTable()
+{
+	var table = document.getElementById("searchResultsTable");
+	var row = searchResultsTable.insertRow(1);
+	var FirstName = row.insertCell(0);
+	var LastName = row.insertCell(1);
+	var PhoneNumber = row.insertCell(2);
+	var Edit = row.insertCell(3);
+	var Delete = row.insertCell(4);
+
+	FirstName.innerHTML = "Tom";
+	LastName.innerHTML = "Jerry";
+	PhoneNumber.innerHTML = "123456789";
+	Edit.innerHTML = "Edit";
+	Delete.innerHTML = "Delete";
+}
+
+function doSearch(event)
+{
+	event.preventDefault();
+
+	var srchText = document.getElementById('searchBar').value; // Value of item typed in the search bar gotten
+	const searchResultsTable = document.getElementById('searchResultsTable');
+	
+	//document.getElementById("loginResult").innerHTML = "";
+
+	// Gets the status of the search 
+	document.getElementById("searchResult").innerHTML = ""
+
+	//'<tr><th class="tl column tableheader tlfname">First Name</th><th class="tl column tableheader tllname">Last Name</th><th class="tl column tableheader phone">Phone Number</th></tr>';
+
+	// var jsonPayload = '{"search" : "' + srch + '","firstName" : "' + firstName + '", "lastName" : "' + lastName + '", "PhoneNumber" : "' + phoneNumber + '"}';
+	var jsonPayload = '{"search" : "' + srchText + '", "userId" : "' + userId + '" }'; 
+	var url = urlBase + '/Search.' + extension;
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				document.getElementById("searchResult").innerHTML = "Retrieved contact(s)";
+				// '<tr><th class="tl column tableheader tlfname">First Name</th><th class="tl column tableheader tllname">Last Name</th><th class="tl column tableheader phone">Phone Number</th></tr>';
+				var jsonObject = JSON.parse( xhr.responseText );
+				var id = jsonObject.id;
+
+				console.log(id);
+				
+				myTable();
+				for( var i = 0; i < jsonObject.id.length; i++ )
+				{
+					searchResultsTable += jsonObject.id[i];
+					if( i < jsonObject.id.length - 1 )
+					
+					{
+						"<td>" +
+						jsonObject[i].FirstName +
+						"</td>" +
+						"<td>" +
+						jsonObject[i].LastName +
+						"</td>" +
+						"<td>" +
+						jsonObject[i].PhoneNumber +
+						"</td>";
+						
+						// contactList += "<br />\r\n";
+					}
+
+				}
+				document.getElementsById("p")[0].innerHTML = contactList;
+			}
+		};
+		//xhr.open("GET", "Search.php?q=" + event, true);
+		//xhr.send();
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("loginResult").innerHTML = err.message;
+	}
+}
+
+// async function getContact()
+// {
+// 	const userId = getActiveUser().userId;
+// 	const srch = document.getElementById("searchBar").value;
+
+// 	console.log("srch: ", srch);
+
+// 	const listResult = await Search(userId, srch);
+// 	comsole.log(listResult);
+
+// }
 
 function saveCookie()
 {
