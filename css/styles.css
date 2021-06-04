@@ -171,6 +171,10 @@ input[type="text"],input[type="password"]{
     color:#05386B
 }
 
+#SearchResult{
+    display: none;
+}
+
 #searchResultsTable{
     width: 100%
 }
