@@ -154,21 +154,16 @@ function myTable()
 	Delete.innerHTML = "Delete";
 }
 
-function doSearch(event)
+function doSearch()
 {
-	event.preventDefault();
+	//event.preventDefault();
+
 
 	var srchText = document.getElementById('searchBar').value; // Value of item typed in the search bar gotten
-	const searchResultsTable = document.getElementById('searchResultsTable');
-	
-	//document.getElementById("loginResult").innerHTML = "";
-
-	// Gets the status of the search 
-	document.getElementById("searchResult").innerHTML = ""
+	document.getElementById("searchResult").innerHTML = ""	// Gets the status of the search 
 
 	//'<tr><th class="tl column tableheader tlfname">First Name</th><th class="tl column tableheader tllname">Last Name</th><th class="tl column tableheader phone">Phone Number</th></tr>';
 
-	// var jsonPayload = '{"search" : "' + srch + '","firstName" : "' + firstName + '", "lastName" : "' + lastName + '", "PhoneNumber" : "' + phoneNumber + '"}';
 	var jsonPayload = '{"search" : "' + srchText + '", "userId" : "' + userId + '" }'; 
 	var url = urlBase + '/Search.' + extension;
 	
@@ -181,58 +176,275 @@ function doSearch(event)
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
-				document.getElementById("searchResult").innerHTML = "Retrieved contact(s)";
-				// '<tr><th class="tl column tableheader tlfname">First Name</th><th class="tl column tableheader tllname">Last Name</th><th class="tl column tableheader phone">Phone Number</th></tr>';
 				var jsonObject = JSON.parse( xhr.responseText );
-				var id = jsonObject.id;
+				document.getElementById("searchResult").innerHTML = "Retrieved contact(s)";
+				//var id = jsonObject.results;
+				var id = jsonObject.error; // Verify with "returnwithError" function in search.php
 
-				console.log(id);
-				
-				myTable();
-				for( var i = 0; i < jsonObject.id.length; i++ )
+				// console.log(id);
+
+				// var searchList = "";
+
+				var table = document.getElementById("searchResultsTable");
+				table.remove();
+
+				var a = 0, b = 1; c = 0;
+
+				var myTable = document.createElement("TABLE");
+				newTable.setAttribute("id", "searchResultsTable");
+				document.body.appendChild(myTable);
+
+
+				document.getElementById("searchResults").innerHTML = "";
+				var row = myTable.insertRow(0);
+				var FirstName = row.insertCell(0);
+				var LastName = row.insertCell(1);
+				var PhoneNumber = row.insertCell(2);
+				var Edit = row.insertCell(3);
+				var Delete = row.insertCell(4);
+
+				var butn;
+				var conId = '';
+				var numRow = '';
+
+				FirstName.innerHTML = "FirstName";
+				LastName.innerHTML = "LastName";
+				PhoneNumber.innerHTML = "PhoneNumber";
+				Edit.innerHTML = "Edit";
+				Delete.innerHTML = "Delete";
+
+
+				for( var i = 0; i < jsonObject.results.length; i++ )
 				{
-					searchResultsTable += jsonObject.id[i];
-					if( i < jsonObject.id.length - 1 )
+					searchResultsTable += jsonObject.results[i];
+					if( i < jsonObject.results.length - 1 )
 					
 					{
-						"<td>" +
-						jsonObject[i].FirstName +
-						"</td>" +
-						"<td>" +
-						jsonObject[i].LastName +
-						"</td>" +
-						"<td>" +
-						jsonObject[i].PhoneNumber +
-						"</td>";
-						
-						// contactList += "<br />\r\n";
-					}
+						row = myTable.insertRow(b);
+						while(jsonObject.results.charAt(a) != ',')
+							a++
+						conId = jsonObject.results.substr(c, a - c);
+						a++
+						c = a;
 
+						row.setAttribute("id", "Row" + b);
+						row.setAttribute("title" + conId);
+
+						FirstName = row.insertCell(0);
+						FirstName.setAttribute("id", "FirstName" + b);
+
+						LastName = row.insertCell(1);
+						LastName.setAttribute("id", "LastName" + b);
+
+
+						PhoneNumber = row.insertCell(2);
+						PhoneNumber.setAttribute("id", "PhoneNumber" + b);
+
+						Edit = row.insertCell(3);
+						Edit.setAttribute("id", "Edit" + b);
+
+						Delete = row.insertCell(4);
+						Delete.setAttribute("id", "Delete" + b);
+
+
+						butn = document.createElement("BUTTON");
+						butn.innerHTML = "Edit";
+						butn.onclick = function() {};
+						Edit.appendChild(butn);
+
+						butn = document.createElement("BUTTON");
+						butn.innerHTML = "Delete";
+						butn.id = b;
+						var name = "Row" + b;
+						var R = toString(r);
+						butn.onclick = function() {doDelete(this.title, this.id)};
+						Edit.appendChild(butn);		
+						
+						
+						FirstName.innerHTML = b;
+						while(jsonObject.results.charAt(a) != ',')
+						{
+							a++;
+						}
+						LastName.innerHTML = jsonObject.results.substr(c, a - c);
+						a++;
+						c = a;
+	
+						while(jsonObject.results.charAt(a) != ',')
+						{
+							a++;
+						}
+						PhoneNumber.innerHTML = jsonObject.results.substr(c, a - c);
+						a++;
+						c = a;
+						b++;								
+					}
 				}
-				document.getElementsById("p")[0].innerHTML = contactList;
+			//	document.getElementsById("searchBar").innerHTML;
 			}
 		};
-		//xhr.open("GET", "Search.php?q=" + event, true);
-		//xhr.send();
 		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
-		document.getElementById("loginResult").innerHTML = err.message;
+		document.getElementById("searchResult").innerHTML = err.message;
 	}
 }
 
-// async function getContact()
-// {
-// 	const userId = getActiveUser().userId;
-// 	const srch = document.getElementById("searchBar").value;
+function doRead()
+{
+	
+	var jsonPayload = '{"userId" : "' + userId + '" }'; 
+	var url = urlBase + '/Read.' + extension;
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				var jsonObject = JSON.parse( xhr.responseText );
+				//var id = jsonObject.results;
+				//var id = jsonObject.error; // Verify with "returnwithError" function in search.php
 
-// 	console.log("srch: ", srch);
+				var table = document.getElementById("searchResultsTable");
+				table.remove();
 
-// 	const listResult = await Search(userId, srch);
-// 	comsole.log(listResult);
+				var a = 0, b = 1; c = 0;
 
-// }
+				var myTable = document.createElement("TABLE");
+				newTable.setAttribute("id", "searchResultsTable");
+				document.body.appendChild(myTable);
+
+
+				document.getElementById("searchResults").innerHTML = "";
+				var row = myTable.insertRow(0);
+				var FirstName = row.insertCell(0);
+				var LastName = row.insertCell(1);
+				var PhoneNumber = row.insertCell(2);
+				var Edit = row.insertCell(3);
+				var Delete = row.insertCell(4);
+
+				var butn;
+				var conId = '';
+				var numRow = '';
+
+				FirstName.innerHTML = "FirstName";
+				LastName.innerHTML = "LastName";
+				PhoneNumber.innerHTML = "PhoneNumber";
+				Edit.innerHTML = "Edit";
+				Delete.innerHTML = "Delete";
+
+
+				for( var i = 0; i < jsonObject.results.length; i++ )
+				{
+					searchResultsTable += jsonObject.results[i];
+					if( i < jsonObject.results.length - 1 )
+					
+					{
+						row = myTable.insertRow(b);
+						while(jsonObject.results.charAt(a) != ',')
+							a++
+						conId = jsonObject.results.substr(c, a - c);
+						a++
+						c = a;
+
+						row.setAttribute("id", "Row" + b);
+						row.setAttribute("title" + conId);
+
+						FirstName = row.insertCell(0);
+						FirstName.setAttribute("id", "FirstName" + b);
+
+						LastName = row.insertCell(1);
+						LastName.setAttribute("id", "LastName" + b);
+
+
+						PhoneNumber = row.insertCell(2);
+						PhoneNumber.setAttribute("id", "PhoneNumber" + b);
+
+						Edit = row.insertCell(3);
+						Edit.setAttribute("id", "Edit" + b);
+
+						Delete = row.insertCell(4);
+						Delete.setAttribute("id", "Delete" + b);
+
+
+						butn = document.createElement("BUTTON");
+						butn.innerHTML = "Edit";
+						butn.onclick = function() {};
+						Edit.appendChild(butn);
+
+						butn = document.createElement("BUTTON");
+						butn.innerHTML = "Delete";
+						butn.id = b;
+						var name = "Row" + b;
+						var R = toString(r);
+						butn.onclick = function() {doDelete(this.title, this.id)};
+						Edit.appendChild(butn);		
+						
+						
+						FirstName.innerHTML = b;
+						while(jsonObject.results.charAt(a) != ',')
+						{
+							a++;
+						}
+						LastName.innerHTML = jsonObject.results.substr(c, a - c);
+						a++;
+						c = a;
+	
+						while(jsonObject.results.charAt(a) != ',')
+						{
+							a++;
+						}
+						PhoneNumber.innerHTML = jsonObject.results.substr(c, a - c);
+						a++;
+						c = a;
+						b++;								
+					}
+				}
+				//document.getElementsById("loginResult").innerHTML;
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("searchResult").innerHTML = err.message;
+	}
+}
+function doDelete()
+{
+	var jsonPayload = '{"firstName" : "' + firstName + '", "lastName" : "' + lastName + '", "PhoneNumber" : "' + phoneNumber + '"}';
+	var url = urlBase + '/Delete.' + extension;
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{	document.getElementById("FirstName" + no).innerHTML = this.readyState + ", " + this.status;		
+			if (this.readyState == 4 && this.status == 200) 
+			{				
+				var jsonObject = JSON.parse( xhr.responseText );
+
+				document.getElementById("FirstName").innerHTML = "Deleted";
+				document.getElementById("LastNAme").innerHTML = "Deleted";
+				document.getElementById("PhoneNumber").innerHTML = "Deleted";
+				document.getElementById("Edit").innerHTML = "Deleted";
+				document.getElementById("Delete").innerHTML = "Deleted";
+			}
+		};
+		xhr.send(jsonPayload);
+	}catch(err)
+	{
+		document.getElementById("Name" + no).innerHTML = err.message;
+	}
+
+}
 
 function saveCookie()
 {
@@ -284,74 +496,36 @@ function doLogout()
 	goToLogin();
 }
 
-// function addColor()
-// {
-// 	var newColor = document.getElementById("colorText").value;
-// 	document.getElementById("colorAddResult").innerHTML = "";
-	
-// 	var jsonPayload = '{"color" : "' + newColor + '", "userId" : ' + userId + '}';
-// 	var url = urlBase + '/AddColor.' + extension;
-	
-// 	var xhr = new XMLHttpRequest();
-// 	xhr.open("POST", url, true);
-// 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-// 	try
-// 	{
-// 		xhr.onreadystatechange = function() 
-// 		{
-// 			if (this.readyState == 4 && this.status == 200) 
-// 			{
-// 				document.getElementById("colorAddResult").innerHTML = "Color has been added";
-// 			}
-// 		};
-// 		xhr.send(jsonPayload);
-// 	}
-// 	catch(err)
-// 	{
-// 		document.getElementById("colorAddResult").innerHTML = err.message;
-// 	}
-	
-// }
+function doAdd(e)
+{
+	e.preventDefault();
 
-// function searchColor()
-// {
-// 	var srch = document.getElementById("searchText").value;
-// 	document.getElementById("colorSearchResult").innerHTML = "";
+	var firstName = document.getElementById("FirstName").value;
+	var lastName = document.getElementById("LastName").value;
+	var phoneNumber = document.getElementById("phoneNumber").value;
+
+	document.getElementById("loginResult").innerHTML = "";
 	
-// 	var colorList = "";
+	var jsonPayload = '{"firstName" : "' + firstName + '", "lastName" : "' + lastName + '", "PhoneNumber" : "' + phoneNumber + '"}';
+	var url = urlBase + '/Create.' + extension;
 	
-// 	var jsonPayload = '{"search" : "' + srch + '","userId" : ' + userId + '}';
-// 	var url = urlBase + '/SearchColors.' + extension;
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				document.getElementById("loginResult").innerHTML = "Contacthas been added";
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("loginResult").innerHTML = err.message;
+	}
 	
-// 	var xhr = new XMLHttpRequest();
-// 	xhr.open("POST", url, true);
-// 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-// 	try
-// 	{
-// 		xhr.onreadystatechange = function() 
-// 		{
-// 			if (this.readyState == 4 && this.status == 200) 
-// 			{
-// 				document.getElementById("colorSearchResult").innerHTML = "Color(s) has been retrieved";
-// 				var jsonObject = JSON.parse( xhr.responseText );
-				
-// 				for( var i=0; i<jsonObject.results.length; i++ )
-// 				{
-// 					colorList += jsonObject.results[i];
-// 					if( i < jsonObject.results.length - 1 )
-// 					{
-// 						colorList += "<br />\r\n";
-// 					}
-// 				}
-				
-// 				document.getElementsByTagName("p")[0].innerHTML = colorList;
-// 			}
-// 		};
-// 		xhr.send(jsonPayload);
-// 	}
-// 	catch(err)
-// 	{
-// 		document.getElementById("colorSearchResult").innerHTML = err.message;
-// 	}
-	
-// }
+}
