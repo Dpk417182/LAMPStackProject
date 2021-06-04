@@ -20,6 +20,7 @@
 			<input type="text" id="searchBar" placeholder="Enter name" />
 			<span class="innerText" id="searchText">PLACEHOLDER</span>
 			<button type="button" id="searchButton" class="buttons" onclick="doSearch();"> Search! </button>
+			<span id="searchResult"></span>
 		</div>
 
 		<hr id="divider">
@@ -31,21 +32,13 @@
 			  <th>Phone Number</th>
 			  <th></th>
 			</tr>
-			<tr>
-			  <td>Jill</td>
-			  <td>Smith</td>
-			  <td>1112221414</td>
-			  <td id="buttonCell">
-				  <button type="button" id="editButton" class="invertedMiniButtons" onclick="doEdit();"> Edit </button>
-				  <button type="button" id="editButton" class="invertedMiniButtons" onclick="doDelete();"> Delete </button></td>
-			</tr>
-			<tr>
-			  <td>Eve</td>
-			  <td>Jackson</td>
-			  <td>1515257373</td>
-			  <td></td>
-			</tr>
 		</table> 
+
+		<div style="height:200px; width:500px;
+				overflow:auto;overflow-x:hidden;">
+
+		</div>
+
 		<span id="loginResult" class="innerText"></span>
 	</div>
 
