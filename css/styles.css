@@ -25,6 +25,7 @@ input[type="text"],input[type="password"]{
     border-radius: 25px;
     margin-bottom: 2%;
     outline: none;
+    border: none;
 
     color: #05386B;
     font-size: 30px;
@@ -37,6 +38,7 @@ input[type="text2"]{
     /*border-radius: 25px;*/
     margin-bottom: 2%;
     outline: none;
+    border: none;
 
     color: #05386B;
     font-size: 25px;
@@ -55,10 +57,12 @@ input[type="text2"]{
     font-family: 'Ubuntu', sans-serif;
 }
 
+
 .buttons:hover{
     color: #5CDB95;
     background-color: #1CB64B;
 }
+
 
 .invertedButtons{
     margin-top: 5%;
@@ -81,7 +85,7 @@ input[type="text2"]{
 
 .invertedMiniButtons{
     display:inline-block;
-    width: 40%;
+    width: 50%;
     padding: 0px;
     border-radius: 25px;
     border: none;
@@ -98,6 +102,16 @@ input[type="text2"]{
 }
 
 #loginDiv{
+    width: 70%;
+    padding: 25px;
+    border-radius: 25px;
+    margin: auto;
+
+    background-color: #379783;
+    font-size: 30px;
+    text-align: center;
+}
+#registerDiv{
     width: 70%;
     padding: 25px;
     border-radius: 25px;
@@ -128,6 +142,10 @@ input[type="text2"]{
     font-size: 0.8em;
     text-align: center;
     font-family: 'Ubuntu', sans-serif;
+}
+
+#message{
+    width: auto;
 }
 
 .inline{
@@ -171,6 +189,8 @@ input[type="text2"]{
     height: 100%;
     float: left;
     width:40%;
+    border: none;
+    outline: none;
 }
 
 #userName{
@@ -196,14 +216,12 @@ input[type="text2"]{
     width: 100%
 }
 
-/*tr { 
+tr { 
     border: none; 
-}*/
+}
 
-/*th{
-    /*display: inline-block;
-    /*border: solid 1px #DDD*/
-    /*border-collapse: collapse; padding: 2px 3px; text-align: center;*/
+th{
+    
     width: 22%;
 
     color: #EDF5E1;
@@ -211,18 +229,24 @@ input[type="text2"]{
     text-align: left;
     font-family: 'Ubuntu', sans-serif;
 }
+    /*display: inline-block;
+    /*border: solid 1px #DDD*/
+    /*border-collapse: collapse; padding: 2px 3px; text-align: center;*/
 
 td{
-    /*display: inline-block;*/
-    /*border-collapse: collapse; padding: 2px 3px; text-align: center;*/
     width: 22%;
 
     color: #EDF5E1;
     font-size: 20px;
-    /*text-align: left;*/
     font-family: 'Ubuntu', sans-serif;
-}*/
+}
+    /*display: inline-block;*/
+    /*border-collapse: collapse; padding: 2px 3px; text-align: center;*/
+    /*text-align: left;*/
 
+td:nth-child(n+4) {
+    width: 10%;  
+}
 #buttonCell{
     text-align: right;
 }
