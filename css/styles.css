@@ -32,6 +32,17 @@ input[type="text"],input[type="password"]{
     font-family: 'Ubuntu', sans-serif;
 }
 
+input[type="text2"]{
+    width: 80%;
+    /*border-radius: 25px;*/
+    margin-bottom: 2%;
+    outline: none;
+
+    color: #05386B;
+    font-size: 25px;
+    text-align: center;
+    font-family: 'Ubuntu', sans-serif;
+}
 .buttons{
     width: 25%;
     padding: 10px;
@@ -129,8 +140,14 @@ input[type="text"],input[type="password"]{
     text-align: center;
 }
 
+#searchCenter{
+    width: 100%;
+
+    text-align: right;
+}
+
 #searchText{
-    font-size: 15px;
+    font-size: 10px;
 }
 
 #addButton{
@@ -179,12 +196,14 @@ input[type="text"],input[type="password"]{
     width: 100%
 }
 
-tr { 
+/*tr { 
     border: none; 
-}
+}*/
 
-th{
-    display: inline-block;
+/*th{
+    /*display: inline-block;
+    /*border: solid 1px #DDD*/
+    /*border-collapse: collapse; padding: 2px 3px; text-align: center;*/
     width: 22%;
 
     color: #EDF5E1;
@@ -194,14 +213,15 @@ th{
 }
 
 td{
-    display: inline-block;
+    /*display: inline-block;*/
+    /*border-collapse: collapse; padding: 2px 3px; text-align: center;*/
     width: 22%;
 
     color: #EDF5E1;
-    font-size: 25px;
-    text-align: left;
+    font-size: 20px;
+    /*text-align: left;*/
     font-family: 'Ubuntu', sans-serif;
-}
+}*/
 
 #buttonCell{
     text-align: right;
