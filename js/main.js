@@ -4,9 +4,10 @@ var extension = '.php';
 var userId = 0;
 var firstName = "";
 var lastName = "";
-var arrHead = new Array();	// array for header.
-arrHead = ['Firstname', 'Lastname', 'Phone Number', ''];
-    
+var tempFirst = "";
+var tempLast = "";
+var tempPhone = "";
+var canEdit = true;
 
 
 function doLogin()
@@ -17,11 +18,12 @@ function doLogin()
 	
 	var login = document.getElementById("loginName").value;
 	var password = document.getElementById("loginPassword").value;
-	var hash = md5( password );
+	// var hash = md5( password );
 	
 	document.getElementById("loginResult").innerHTML = "";
 
-	var jsonPayload = '{"login" : "' + login + '", "password" : "' + hash + '"}';
+	var jsonPayload = '{"login" : "' + login + '", "password" : "' + password + '"}';
+	// var jsonPayload = '{"login" : "' + login + '", "password" : "' + hash + '"}';
 	var url = urlBase + '/Login' + extension;
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -72,26 +74,58 @@ function goToRegisterPage()
 
 }
 
-function doRegister(e)
-{
-	e.preventDefault();
-	var fName = document.getElementById("registerFirstName").value;
-	var lName = document.getElementById("registerLastName").value;
-	var userName = document.getElementById("registerUserName").value
-	var password = document.getElementById("registerPassword").value;
-	var retypePassword = document.getElementById("registerRetypePassword").value;
-	var retypePasswordVal = document.getElementById("registerRetypePassword");
-	var userNameVal = document.getElementById("registerUserName");
+$('#registerPassword, #registerRetypePassword').on('keyup', function () {
+	if ($('#registerPassword').val() == $('#registerRetypePassword').val()) {
+	  $('#message').html('Password matches').css('color', 'green');
+	} else 
+	  $('#message').html('Password doesn\'t match').css('color', 'red');
+  });
 
+function doRegister()
+{
+	// e.preventDefault();
+	var fName;
+	var fNameVal;
+	var lName;
+	var userName;
+	var password;
+	var retypePassword;
+	var retypePasswordVal;
+	var userNameVal;
+
+	fName = document.getElementById("registerFirstName").value;
+	fNameVal = document.getElementById("registerFirstName");
+	lName = document.getElementById("registerLastName").value;
+	userName = document.getElementById("registerUserName").value;
+	password = document.getElementById("registerPassword").value;
+	retypePassword = document.getElementById("registerRetypePassword").value;
+	retypePasswordVal = document.getElementById("registerRetypePassword");
+	userNameVal = document.getElementById("registerUserName");
+	
+	// alert(password + " = " + retypePassword);
 	if(password != retypePassword){
-		retypePasswordVal.setCustomValidity("Passwords don't match");
+		// alert(password + " = " + retypePassword);
+		// retypePasswordVal.setCustomValidity("Passwords don't match");
+		// document.getElementById("registerPassword").value = "";
+		// document.getElementById("registerRetypePassword").value = "";
+		// password = retypePassword = null;
+		// goToRegisterPage();
+		document.getElementById("loginResult").innerHTML = "Passwords do not match";
+		document.getElementById("registerDiv").reset();
+		document.getElementById("registerFirstName").value = fName;
+		document.getElementById("registerLastName").value = lName;
+		document.getElementById("registerUserName").value = userName;
+		// retypePasswordVal.setCustomValidity('');
+
 		return;
 	}
 	else {
 		retypePasswordVal.setCustomValidity('');
 	}
 
-
+	// alert("I am here");
+	// goToLogin();
+	// alert("I am there");
 	document.getElementById("loginResult").innerHTML = "";
 	var hash = md5( password );
 	var jsonPayload = '{"firstName" : "' + fName + '", "lastName" : "'+ lName + '", "userName" : "' + userName + '", "password" : "' + hash + '", "retypePassword" : "' + retypePassword + '"}';
@@ -110,19 +144,24 @@ function doRegister(e)
 			if(this.readyState == 4 && this.status == 200)
 			{
 				var jsonObject = JSON.parse( xhr.responseText );
-				errid = jsonObject.errid;
-				console.log(errid);
+				var errid = jsonObject.errid;
+				// console.log(errid);
+				
 				if(errid == "1" )
 				{	
 					goToLogin();
 				}
 				else{
-					userNameVal.setCustomValidity("Username already exists");
+					// userNameVal.setCustomValidity("Username already exists");
 					document.getElementById("loginResult").innerHTML = "Username already exists";
+					document.getElementById("registerDiv").reset();
+					document.getElementById("registerFirstName").value = fName;
+					document.getElementById("registerLastName").value = lName;
+					document.getElementById("registerUserName").value = "";
+					// userNameVal.setCustomValidity('');
 				}
 
-				document.getElementById("registerPassword").value="";
-				document.getElementById("registerRetypePassword").value="";	
+				
 							
 			}
 		};
@@ -134,103 +173,119 @@ function doRegister(e)
 	}		
 }
 
-function createTable()
-{
-	var empTable = document.createElement('table'); // create table
-	empTable.setAttribute('id', 'empTable'); // table id.
+$("#registerDiv").submit(function () {
+	doRegister();
+	return false;
+   });
 
-	var tr = empTable.insertRow(-1);
-	for (var h = 0; h < arrHead.length; h++) 
-	{
-		var th = document.createElement('th'); // create table headers
-		th.innerHTML = arrHead[h];
-		tr.appendChild(th); // append table headers to the table rows.
+function createButton(id, type){
+	// <input type="button" id="loginButton" class="buttons" value = "Return to Login" onclick="goToLogin();"> 
+	let input = document.createElement("input");
+	// input.id = id;
+	input.value = type;
+	input.className = "invertedMiniButtons";
+	input.type = "button";
+	if(type == "editButton"){
+		input.onclick = function() {doEdit(id)};
+		input.value = "edit";
 	}
-	var div = document.getElementById('cont'); // Gets the container from html
-	div.appendChild(empTable);  // adds the TABLE to the container.
-}
-
-function addRow()
-{
-	var empTab = document.getElementById('empTable');
-	var rowCnt = empTab.rows.length;   // table row count.
-	var tr = empTab.insertRow(rowCnt); // the table row.
-	tr = empTab.insertRow(rowCnt);
-	
-	for (var c = 0; c < arrHead.length; c++) {
-		var td = document.createElement('td'); // table definition.
-		td = tr.insertCell(c);
-
-		if (c == 3) {      // the last column.
-			// add a button in every new row at the last column.
-			var button = document.createElement('input');
-
-			// set input attributes.
-			button.setAttribute('type', 'button');
-			button.setAttribute('value', 'Remove');
-
-			// add button's 'onclick' event.
-			button.setAttribute('onclick', 'removeRow(this)');
-
-			td.appendChild(button);
-		}
-		else {
-			// 2nd, 3rd and 4th column, will have textbox.
-			var ele = document.createElement('input');
-			ele.setAttribute('type', 'text2');
-			ele.setAttribute('value', '');
-
-			td.appendChild(ele);
-		}
-	}	
-}
-
-// delete TABLE row function.
-function removeRow(oButton) 
-{
-	var empTab = document.getElementById('empTable');
-	empTab.deleteRow(oButton.parentNode.parentNode.rowIndex); // button -> td -> tr.
-}
-
- // function to extract and submit table data.
- function submit() 
- {
-	var nextLine = "";
-	var myTab = document.getElementById('empTable');
-	var arrValues = new Array();
-
-	// loop through each row of the table.
-	for (row = 1; row < myTab.rows.length - 1; row++) {
-		// loop through each cell in a row.
-		for (c = 0; c < myTab.rows[row].cells.length; c++) {  
-			var element = myTab.rows.item(row).cells[c];
-			if (element.childNodes[0].getAttribute('type') == 'text2') {
-				arrValues.push("'" + element.childNodes[0].value + "'");
-				nextLine = " /n";
-
-			}
-
-			
-		}
+	else if(type == "delete"){
+		input.onclick = function() {doDelete(id)};
 	}
-	
-	// The final output.
-	// document.getElementById('loginResult').innerHTML = arrValues;
-	console.log (arrValues);
-
+	else if(type == "add"){
+		input.onclick = function() {addContactSubmit()};
+	}
+	else if(type == "edit"){
+		input.onclick = function() {editContactSubmit(id)};
+	}
+	return input;
 }
+
+function createTextButton(id, placeholder, bool){
+	bool = bool ?? true;
+	let input = document.createElement("input");
+	input.id = id;
+	// alert("Bool: " + bool);
+	if(bool)
+		input.placeholder = placeholder;
+	else
+		input.value = placeholder;
+	input.type = "text";
+	return input;
+}
+
+function addContact(id, bool, firstName, lastName, phoneNumber){
+	id = id ?? 0;
+	bool = bool ?? true;
+	firstName = firstName ?? "First Name";
+	lastName = lastName ?? "Last Name";
+	phoneNumber = phoneNumber ?? "Phone Number";
+	var table = document.getElementById("searchResultsTable");
+	table.deleteRow(id);
+	row = table.insertRow(id);
+	var cell1 = row.insertCell(0);
+	var cell2 = row.insertCell(1);
+	var cell3 = row.insertCell(2);
+	var cell4 = row.insertCell(3);
+	if(bool){
+		addORcreate = "add";
+	}
+	else{
+		addORcreate = "edit";
+	}
+
+	cell4.appendChild(createButton(id, addORcreate));
+	cell1.appendChild(createTextButton(addORcreate + "FirstName", firstName, bool));
+	cell2.appendChild(createTextButton(addORcreate + "LastName", lastName, bool));
+	cell3.appendChild(createTextButton(addORcreate + "PhoneNumber", phoneNumber, bool));
+	// Create a text input button. Takes in the id, placeholder and a boolean (true or blank for placeholder, false for value).
+	// createTextButton("addFirstName", "First Name");
+	
+	
+}
+
+function addEntry(table, entryPoint, firstName, lastName, phoneNumber, bool){
+	bool = bool ?? true;
+	row = table.insertRow(entryPoint);
+	
+	if(bool){
+		var cell1 = row.insertCell(0);
+		var cell2 = row.insertCell(1);
+		var cell3 = row.insertCell(2);
+		var cell4 = row.insertCell(3);
+		var cell5 = row.insertCell(4);
+		cell1.innerHTML = firstName;
+		cell2.innerHTML = lastName;
+		cell3.innerHTML = phoneNumber;
+		
+		cell4.appendChild(createButton(entryPoint, "editButton"));
+		cell5.appendChild(createButton(entryPoint, "delete"));
+	}
+	else{
+		var x = document.createElement("th");
+		var x1 = document.createElement("th");
+		var x2 = document.createElement("th");
+		var y = document.createTextNode(firstName);
+		var y1 = document.createTextNode(lastName);
+		var y2 = document.createTextNode(phoneNumber);
+		x.appendChild(y);
+		x1.appendChild(y1);
+		x2.appendChild(y2);
+
+		row.appendChild(x);
+		row.appendChild(x1);
+		row.appendChild(x2); 
+	}
+}
+
 function doSearch()
 {
-	//event.preventDefault();
-
-
 	var srchText = document.getElementById('searchBar').value; // Value of item typed in the search bar gotten
 	document.getElementById("searchResult").innerHTML = ""	// Gets the status of the search 
 
-	//'<tr><th class="tl column tableheader tlfname">First Name</th><th class="tl column tableheader tllname">Last Name</th><th class="tl column tableheader phone">Phone Number</th></tr>';
-
-	var jsonPayload = '{"search" : "' + srchText + '", "userId" : "' + userId + '" }'; 
-	var url = urlBase + '/Search.' + extension;
+	readCookie();
+	var jsonPayload = '{"search" : "' + srchText + '", "id" : "' + userId + '" }'; 
+	var url = urlBase + '/Search' + extension;
 	
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -241,111 +296,22 @@ function doSearch()
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
+				$("#searchResultsTable tr").remove();
+				
 				var jsonObject = JSON.parse( xhr.responseText );
 				document.getElementById("searchResult").innerHTML = "Retrieved contact(s)";
-				//var id = jsonObject.results;
-				var id = jsonObject.error; // Verify with "returnwithError" function in search.php
-
-				// console.log(id);
-
-				// var searchList = "";
 
 				var table = document.getElementById("searchResultsTable");
-				table.remove();
+				addEntry(table, 0, "First Name", "Last Name", "Phone Number", false);
+				document.getElementById("searchResult").innerHTML = "";
 
-				var a = 0, b = 1; c = 0;
+				var length = Object.keys(jsonObject).length
 
-				var myTable = document.createElement("TABLE");
-				newTable.setAttribute("id", "searchResultsTable");
-				document.body.appendChild(myTable);
-
-
-				document.getElementById("searchResults").innerHTML = "";
-				var row = myTable.insertRow(0);
-				var FirstName = row.insertCell(0);
-				var LastName = row.insertCell(1);
-				var PhoneNumber = row.insertCell(2);
-				var Edit = row.insertCell(3);
-				var Delete = row.insertCell(4);
-
-				var butn;
-				var conId = '';
-				var numRow = '';
-
-				FirstName.innerHTML = "FirstName";
-				LastName.innerHTML = "LastName";
-				PhoneNumber.innerHTML = "PhoneNumber";
-				Edit.innerHTML = "Edit";
-				Delete.innerHTML = "Delete";
-
-
-				for( var i = 0; i < jsonObject.results.length; i++ )
+				//Add all entries from the search results to the table, starts at 1 because the headers are in index 0
+				for(var i = 0; i < length; i++ )
 				{
-					searchResultsTable += jsonObject.results[i];
-					if( i < jsonObject.results.length - 1 )
-					
-					{
-						row = myTable.insertRow(b);
-						while(jsonObject.results.charAt(a) != ',')
-							a++
-						conId = jsonObject.results.substr(c, a - c);
-						a++
-						c = a;
-
-						row.setAttribute("id", "Row" + b);
-						row.setAttribute("title" + conId);
-
-						FirstName = row.insertCell(0);
-						FirstName.setAttribute("id", "FirstName" + b);
-
-						LastName = row.insertCell(1);
-						LastName.setAttribute("id", "LastName" + b);
-
-
-						PhoneNumber = row.insertCell(2);
-						PhoneNumber.setAttribute("id", "PhoneNumber" + b);
-
-						Edit = row.insertCell(3);
-						Edit.setAttribute("id", "Edit" + b);
-
-						Delete = row.insertCell(4);
-						Delete.setAttribute("id", "Delete" + b);
-
-
-						butn = document.createElement("BUTTON");
-						butn.innerHTML = "Edit";
-						butn.onclick = function() {};
-						Edit.appendChild(butn);
-
-						butn = document.createElement("BUTTON");
-						butn.innerHTML = "Delete";
-						butn.id = b;
-						var name = "Row" + b;
-						var R = toString(r);
-						butn.onclick = function() {doDelete(this.title, this.id)};
-						Edit.appendChild(butn);		
-						
-						
-						FirstName.innerHTML = b;
-						while(jsonObject.results.charAt(a) != ',')
-						{
-							a++;
-						}
-						LastName.innerHTML = jsonObject.results.substr(c, a - c);
-						a++;
-						c = a;
-	
-						while(jsonObject.results.charAt(a) != ',')
-						{
-							a++;
-						}
-						PhoneNumber.innerHTML = jsonObject.results.substr(c, a - c);
-						a++;
-						c = a;
-						b++;								
-					}
+					addEntry(table, i+1, jsonObject[i].FirstName, jsonObject[i].LastName, jsonObject[i].PhoneNumber);
 				}
-			//	document.getElementsById("searchBar").innerHTML;
 			}
 		};
 		xhr.send(jsonPayload);
@@ -356,11 +322,42 @@ function doSearch()
 	}
 }
 
-function doRead()
-{
+function editContactSubmit(id){
+	// alert("I am here: " + id);
+	var table = document.getElementById("searchResultsTable");
 	
-	var jsonPayload = '{"userId" : "' + userId + '" }'; 
-	var url = urlBase + '/Read.' + extension;
+	var addFName = document.getElementById("editFirstName");
+	var addLName = document.getElementById("editLastName");
+	var addPhNum = document.getElementById("editPhoneNumber");
+
+	if(addFName == null || addLName == null || addPhNum == null){
+		// alert("Hi there 2:");
+		return;
+	}
+	if(addFName.value == "" || addLName.value == "" || addPhNum.value == ""){
+		// alert("Hi there 3:");
+		if(addFName.value == ""){
+			addFName.placeholder = "Please include value";
+		}
+		if(addLName.value == ""){
+			addLName.placeholder = "Please include value";
+		}
+		if(addPhNum.value == ""){
+			addPhNum.placeholder = "Please include value";
+		}
+		return;
+	}
+
+	var addFNameValue = document.getElementById("editFirstName").value;
+	var addLNameValue = document.getElementById("editLastName").value;
+	var addPhNumValue = document.getElementById("editPhoneNumber").value;
+
+	document.getElementById("searchResultsTable").deleteRow(id);
+	addEntry(table, id, addFNameValue, addLNameValue, addPhNumValue);
+	readCookie();
+	var jsonPayload = '{"id" : "' + userId + '", "firstName" : "' + tempFirst + '", "lastName" : "' + tempLast + '", "phoneNumber" : "' + tempPhone + '", "newFirstName" : "' + addFNameValue + '", "newLastName" : "' + addLNameValue + '", "newPhoneNumber" : "' + addPhNumValue + '"}';
+	// alert(jsonPayload);
+	var url = urlBase + '/Update' + extension;
 	
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -368,122 +365,106 @@ function doRead()
 	try
 	{
 		xhr.onreadystatechange = function() 
-		{
+		{			
 			if (this.readyState == 4 && this.status == 200) 
-			{
+			{				
 				var jsonObject = JSON.parse( xhr.responseText );
-				//var id = jsonObject.results;
-				//var id = jsonObject.error; // Verify with "returnwithError" function in search.php
-
-				var table = document.getElementById("searchResultsTable");
-				table.remove();
-
-				var a = 0, b = 1; c = 0;
-
-				var myTable = document.createElement("TABLE");
-				newTable.setAttribute("id", "searchResultsTable");
-				document.body.appendChild(myTable);
-
-
-				document.getElementById("searchResults").innerHTML = "";
-				var row = myTable.insertRow(0);
-				var FirstName = row.insertCell(0);
-				var LastName = row.insertCell(1);
-				var PhoneNumber = row.insertCell(2);
-				var Edit = row.insertCell(3);
-				var Delete = row.insertCell(4);
-
-				var butn;
-				var conId = '';
-				var numRow = '';
-
-				FirstName.innerHTML = "FirstName";
-				LastName.innerHTML = "LastName";
-				PhoneNumber.innerHTML = "PhoneNumber";
-				Edit.innerHTML = "Edit";
-				Delete.innerHTML = "Delete";
-
-
-				for( var i = 0; i < jsonObject.results.length; i++ )
-				{
-					searchResultsTable += jsonObject.results[i];
-					if( i < jsonObject.results.length - 1 )
-					
-					{
-						row = myTable.insertRow(b);
-						while(jsonObject.results.charAt(a) != ',')
-							a++
-						conId = jsonObject.results.substr(c, a - c);
-						a++
-						c = a;
-
-						row.setAttribute("id", "Row" + b);
-						row.setAttribute("title" + conId);
-
-						FirstName = row.insertCell(0);
-						FirstName.setAttribute("id", "FirstName" + b);
-
-						LastName = row.insertCell(1);
-						LastName.setAttribute("id", "LastName" + b);
-
-
-						PhoneNumber = row.insertCell(2);
-						PhoneNumber.setAttribute("id", "PhoneNumber" + b);
-
-						Edit = row.insertCell(3);
-						Edit.setAttribute("id", "Edit" + b);
-
-						Delete = row.insertCell(4);
-						Delete.setAttribute("id", "Delete" + b);
-
-
-						butn = document.createElement("BUTTON");
-						butn.innerHTML = "Edit";
-						butn.onclick = function() {};
-						Edit.appendChild(butn);
-
-						butn = document.createElement("BUTTON");
-						butn.innerHTML = "Delete";
-						butn.id = b;
-						var name = "Row" + b;
-						var R = toString(r);
-						butn.onclick = function() {doDelete(this.title, this.id)};
-						Edit.appendChild(butn);		
-						
-						
-						FirstName.innerHTML = b;
-						while(jsonObject.results.charAt(a) != ',')
-						{
-							a++;
-						}
-						LastName.innerHTML = jsonObject.results.substr(c, a - c);
-						a++;
-						c = a;
+				
+			}
+		};
 	
-						while(jsonObject.results.charAt(a) != ',')
-						{
-							a++;
-						}
-						PhoneNumber.innerHTML = jsonObject.results.substr(c, a - c);
-						a++;
-						c = a;
-						b++;								
-					}
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		// document.getElementById("Name" + no).innerHTML = err.message;
+	}
+	canEdit = true;
+}
+
+function addContactSubmit(){
+	// alert("Hi there:");
+	var addFName = document.getElementById("addFirstName");
+	var addLName = document.getElementById("addLastName");
+	var addPhNum = document.getElementById("addPhoneNumber");
+
+	if(addFName == null || addLName == null || addPhNum == null){
+		// alert("Hi there 2:");
+		return;
+	}
+	if(addFName.value == "" || addLName.value == "" || addPhNum.value == ""){
+		// alert("Hi there 3:");
+		if(addFName.value == ""){
+			addFName.placeholder = "Please include value";
+		}
+		if(addLName.value == ""){
+			addLName.placeholder = "Please include value";
+		}
+		if(addPhNum.value == ""){
+			addPhNum.placeholder = "Please include value";
+		}
+		return;
+	}
+	
+	// document.getElementById("loginResult").innerHTML = "";
+	// var hash = md5( password );
+	readCookie();
+	// alert("firstName: " + addFName.value + "   lastName: "+ addLName.value + "     phoneNumber: " + addPhNum.value + "    id: " + userId);
+	var jsonPayload = '{"firstName" : "' + addFName.value + '", "lastName" : "'+ addLName.value + '", "phoneNumber" : "' + addPhNum.value + '", "id" : "' + userId + '"}';
+	var url = urlBase + '/Create' + extension;
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true); // Opens up connection
+
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8") // Sets type of content to be sent.
+	try
+	{
+		xhr.onreadystatechange = function()
+		{
+			// readyState: 4 = request finished & response ready
+			// status: 4 = "OK"
+			
+			if(this.readyState == 4 && this.status == 200)
+			{
+				var jsonObject = JSON.parse(xhr.responseText);
+				var errid = jsonObject.errid;
+				
+				if(errid == "1" )
+				{	
+					document.getElementById("searchResultsTable").deleteRow(0);
+					addEntry(document.getElementById("searchResultsTable"), 0, "First Name", "Last Name", "Phone Number", false);
 				}
-				//document.getElementsById("loginResult").innerHTML;
+				else{
+				//Contact already exists
+				}		
 			}
 		};
 		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
-		document.getElementById("searchResult").innerHTML = err.message;
-	}
+		document.getElementById("loginResult").innerHTML = err.message;
+	}		
+
 }
-function doDelete()
+
+function doDelete(id)
 {
-	var jsonPayload = '{"firstName" : "' + firstName + '", "lastName" : "' + lastName + '", "PhoneNumber" : "' + phoneNumber + '"}';
-	var url = urlBase + '/Delete.' + extension;
+	if(confirm('Are you sure you want to delete this contact?')){
+
+	}
+	else{
+		return;
+	}
+	var table = document.getElementById("searchResultsTable");
+	// alert(table.rows[id].innerHTML);
+	// alert(table.rows[id].cells[0].innerHTML);
+	var firstName = table.rows[id].cells[0].innerHTML;
+	var lastName = table.rows[id].cells[1].innerHTML;
+	var phoneNumber = table.rows[id].cells[2].innerHTML;
+	readCookie();
+	//id takes in the entrypoint of the entry in the form
+	var jsonPayload = '{"id" : "' + userId + '", "firstName" : "' + firstName + '", "lastName" : "' + lastName + '", "phoneNumber" : "' + phoneNumber + '"}';
+	var url = urlBase + '/Delete' + extension;
 	
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -491,23 +472,46 @@ function doDelete()
 	try
 	{
 		xhr.onreadystatechange = function() 
-		{	document.getElementById("FirstName" + no).innerHTML = this.readyState + ", " + this.status;		
+		{	
+			// document.getElementById("FirstName" + no).innerHTML = this.readyState + ", " + this.status;		
 			if (this.readyState == 4 && this.status == 200) 
 			{				
 				var jsonObject = JSON.parse( xhr.responseText );
 
-				document.getElementById("FirstName").innerHTML = "Deleted";
-				document.getElementById("LastNAme").innerHTML = "Deleted";
-				document.getElementById("PhoneNumber").innerHTML = "Deleted";
-				document.getElementById("Edit").innerHTML = "Deleted";
-				document.getElementById("Delete").innerHTML = "Deleted";
+				
+				table.rows[id].cells[0].innerHTML = "Deleted";
+				table.rows[id].cells[1].innerHTML = "Deleted";
+				table.rows[id].cells[2].innerHTML = "Deleted";
+				table.rows[id].cells[3].innerHTML = "Deleted";
+				table.rows[id].cells[4].innerHTML = "Deleted";
 			}
 		};
+	
 		xhr.send(jsonPayload);
-	}catch(err)
-	{
-		document.getElementById("Name" + no).innerHTML = err.message;
 	}
+	catch(err)
+	{
+		// document.getElementById("Name" + no).innerHTML = err.message;
+	}
+
+}
+
+function doEdit(id)
+{
+	if(!canEdit){
+		return;
+	}
+	var table = document.getElementById("searchResultsTable");
+	var firstName = table.rows[id].cells[0].innerHTML;
+	var lastName = table.rows[id].cells[1].innerHTML;
+	var phoneNumber = table.rows[id].cells[2].innerHTML;
+	tempFirst = firstName;
+	tempLast = lastName;
+	tempPhone = phoneNumber;
+	// var edit = table.rows[id].cells[3];
+	// alert(edit);
+	canEdit = false;
+	addContact(id, false, firstName, lastName, phoneNumber);
 
 }
 
@@ -548,7 +552,7 @@ function readCookie()
 	}
 	else
 	{
-		document.getElementById("userName").innerHTML = "Logged in as " + firstName + " " + lastName;
+		// document.getElementById("userName").innerHTML = "Logged in as " + firstName + " " + lastName;
 	}
 }
 

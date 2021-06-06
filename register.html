@@ -2,8 +2,10 @@
 
 <head>
 	<title>Personal Contact Manager</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script type="text/javascript" src="js/md5.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/main.js" defer></script>
+	
     <link href="css/styles.css" rel="stylesheet">	
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 </head>
@@ -12,17 +14,18 @@
 
 	<h1 id="title">Personal Contact Manager</h1>
 
-	<form id="loginDiv" >
+	<form id="registerDiv">
 		<span class="innerText">Please Register</span><br/>
 		<input type="text" id="registerFirstName" placeholder="First Name" required><br />
 		<input type="text" id="registerLastName" placeholder="Last Name" required><br />
 		<input type="text" id="registerUserName" placeholder="Username" required><br />
 		<input type="password" id="registerPassword" placeholder="Password" required><br />
 		<input type="password" id="registerRetypePassword" placeholder="Retype Password" required><br />
-
-		<button type="button" id="loginButton" class="buttons" onclick="goToLogin();"> Return to Login</button>	
-		<button type="submit" id="registerButton" class="buttons" onclick="doRegister(event)">Register</button><br/>
-		<span id="loginResult" class="innerText"></span>
+		<span id='message' class="innerText"></span><br/>
+		<input type="button" id="loginButton" class="buttons" value = "Return to Login" onclick="goToLogin();"> 
+		<input type="submit" id="registerButton" class="buttons" value = "Register"><br/>
+		
+		<!-- <span id="loginResult" class="innerText"></span> -->
 	</form>
 
 </body>
