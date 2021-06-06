@@ -5,7 +5,7 @@
     $id = $inData["id"];        
     $firstName = $inData["firstName"];          
     $lastName = $inData["lastName"];            
-    $PhoneNumber = $inData["PhoneNumber"];      
+    $phoneNumber = $inData["phoneNumber"];      
     $newFirstName = $inData["newFirstName"];     
     $newLastName = $inData["newLastName"];      
     $newPhoneNumber = $inData["newPhoneNumber"];
@@ -29,8 +29,8 @@
         }
 
 		# updates a contact to the table
-		$stmt = $conn->prepare("UPDATE Contacts SET firstName = ?, lastName = ?, PhoneNumber = ? WHERE (id = ? && firstName = ? && lastName = ? && PhoneNumber = ?)");
-		$stmt->bind_param("sssisss", $newFirstName, $newLastName, $newPhoneNumber, $id, $firstName, $lastName, $PhoneNumber);
+		$stmt = $conn->prepare("UPDATE Contacts SET FirstName = ?, LastName = ?, PhoneNumber = ? WHERE (ID = ? && FirstName = ? && LastName = ? && PhoneNumber = ?)");
+		$stmt->bind_param("sssisss", $newFirstName, $newLastName, $newPhoneNumber, $id, $firstName, $lastName, $phoneNumber);
 		$stmt->execute();
 		$stmt->close();
 		$conn->close();
@@ -46,7 +46,7 @@
 	{
 		header('Content-type: application/json');
 		
-		echo json_encode($obj);
+		echo $obj;
 	}
 	
 	function returnWithError( $err )
