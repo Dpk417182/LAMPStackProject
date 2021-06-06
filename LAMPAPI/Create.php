@@ -32,13 +32,15 @@
 	{
 		header('Content-type: application/json');
 		
-		echo json_encode($obj);
+		echo $obj;
 	}
 	
 	function returnWithError( $err )
 	{
 		# error value 1 is a successful create
-		$retValue = '{"error":"' . $err . '"}';
+		// $retValue = '{"errid":"' . $errid . '"}';
+		$retValue = '{"errid":"' . $err . '"}';
+	
 		sendResultInfoAsJson( $retValue );
 	}
 	
