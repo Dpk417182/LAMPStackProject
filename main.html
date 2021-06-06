@@ -3,14 +3,21 @@
 <head>
 	<title>Personal Contact Manager</title>
 	<script type="text/javascript" src="js/md5.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/main.js" defer></script>
     <link href="css/styles.css" rel="stylesheet">	
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-</head>
+	<style>
+		* { font: 25px sans-serif; } 
+		table { width: 100%; }
+		table, th, td { border: solid px #e5eed8;
+			border-collapse: collapse; padding: 2px 3px; text-align: center;
+		}
+	</style> 
+</head>  
 
-<body>
+<body onload = "createTable()">
 	<div id="searchTop">
-		<button type="button" id="addButton" class="invertedButtons" onclick="doAdd();"> Add Contact </button>
+		<button type="button" id="addButton" class="invertedButtons" onclick="addRow();"> Add Contact </button>
 		<h1 id="title" class="inline">Personal Contact Manager</h1>
 		<button type="button" id="logoutButton" class="invertedButtons" onclick="doLogout();"> Logout </button>
 	</div>
@@ -18,28 +25,22 @@
 	<div id="loginDiv">
 		<div id="searchBottom">
 			<input type="text" id="searchBar" placeholder="Enter name" />
-			<span class="innerText" id="searchText">PLACEHOLDER</span>
+			<!-- <span class="innerText" id="searchText">PLACEHOLDER</span> -->
 			<button type="button" id="searchButton" class="buttons" onclick="doSearch();"> Search! </button>
 			<span id="searchResult"></span>
+	
+	</div>
+
+		<hr id="divider"> 
+	
+	<div id="cont"></div>  <!-- the container to add the TABLE -->
+
+		<span id="loginResult" class="innerText"></span>	
+
+		<div id="searchCenter">
+			<!-- <button type="button" id="searchButton" class="invertedButtons" onclick="submit();"> Submit </button> -->
+			<input type="button" id="searchButton" class="invertedButtons" value="Submit" onclick="submit()" />
 		</div>
-
-		<hr id="divider">
-
-		<table id="searchResultsTable">
-			<tr>
-			  <th>Firstname</th>
-			  <th>Lastname</th>
-			  <th>Phone Number</th>
-			  <th></th>
-			</tr>
-		</table> 
-
-		<div style="height:200px; width:500px;
-				overflow:auto;overflow-x:hidden;">
-
-		</div>
-
-		<span id="loginResult" class="innerText"></span>
 	</div>
 
 </body>
