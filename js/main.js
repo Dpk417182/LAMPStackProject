@@ -4,6 +4,9 @@ var extension = '.php';
 var userId = 0;
 var firstName = "";
 var lastName = "";
+var arrHead = new Array();	// array for header.
+arrHead = ['Firstname', 'Lastname', 'Phone Number', ''];
+    
 
 
 function doLogin()
@@ -31,14 +34,6 @@ function doLogin()
 			{
 				var jsonObject = JSON.parse( xhr.responseText );
 				userId = jsonObject.id;
-				
-				//firstindexFirstname = jsonObject[0].FirstName;
-				//firstindexLastName = jsonObject[0].LastName;
-				//firstindexPhoneNumber = jsonObject[0].PhoneNumber;
-				//firstindexFirstname = jsonObject[1].FirstName;
-				//firstindexLastName = jsonObject[1].LastName;
-				//firstindexPhoneNumber = jsonObject[1].PhoneNumber;
-				
 
 				
 				if( userId < 1 )
@@ -53,6 +48,7 @@ function doLogin()
 				saveCookie();
 	
 				window.location.href = "./main.html";
+
 				
 			}
 		};
@@ -73,6 +69,7 @@ function goToLogin()
 function goToRegisterPage()
 {
 	window.location.href = "./register.html";
+
 }
 
 function doRegister(e)
@@ -137,23 +134,91 @@ function doRegister(e)
 	}		
 }
 
-function myTable()
+function createTable()
 {
-	var table = document.getElementById("searchResultsTable");
-	var row = searchResultsTable.insertRow(1);
-	var FirstName = row.insertCell(0);
-	var LastName = row.insertCell(1);
-	var PhoneNumber = row.insertCell(2);
-	var Edit = row.insertCell(3);
-	var Delete = row.insertCell(4);
+	var empTable = document.createElement('table'); // create table
+	empTable.setAttribute('id', 'empTable'); // table id.
 
-	FirstName.innerHTML = "Tom";
-	LastName.innerHTML = "Jerry";
-	PhoneNumber.innerHTML = "123456789";
-	Edit.innerHTML = "Edit";
-	Delete.innerHTML = "Delete";
+	var tr = empTable.insertRow(-1);
+	for (var h = 0; h < arrHead.length; h++) 
+	{
+		var th = document.createElement('th'); // create table headers
+		th.innerHTML = arrHead[h];
+		tr.appendChild(th); // append table headers to the table rows.
+	}
+	var div = document.getElementById('cont'); // Gets the container from html
+	div.appendChild(empTable);  // adds the TABLE to the container.
 }
 
+function addRow()
+{
+	var empTab = document.getElementById('empTable');
+	var rowCnt = empTab.rows.length;   // table row count.
+	var tr = empTab.insertRow(rowCnt); // the table row.
+	tr = empTab.insertRow(rowCnt);
+	
+	for (var c = 0; c < arrHead.length; c++) {
+		var td = document.createElement('td'); // table definition.
+		td = tr.insertCell(c);
+
+		if (c == 3) {      // the last column.
+			// add a button in every new row at the last column.
+			var button = document.createElement('input');
+
+			// set input attributes.
+			button.setAttribute('type', 'button');
+			button.setAttribute('value', 'Remove');
+
+			// add button's 'onclick' event.
+			button.setAttribute('onclick', 'removeRow(this)');
+
+			td.appendChild(button);
+		}
+		else {
+			// 2nd, 3rd and 4th column, will have textbox.
+			var ele = document.createElement('input');
+			ele.setAttribute('type', 'text2');
+			ele.setAttribute('value', '');
+
+			td.appendChild(ele);
+		}
+	}	
+}
+
+// delete TABLE row function.
+function removeRow(oButton) 
+{
+	var empTab = document.getElementById('empTable');
+	empTab.deleteRow(oButton.parentNode.parentNode.rowIndex); // button -> td -> tr.
+}
+
+ // function to extract and submit table data.
+ function submit() 
+ {
+	var nextLine = "";
+	var myTab = document.getElementById('empTable');
+	var arrValues = new Array();
+
+	// loop through each row of the table.
+	for (row = 1; row < myTab.rows.length - 1; row++) {
+		// loop through each cell in a row.
+		for (c = 0; c < myTab.rows[row].cells.length; c++) {  
+			var element = myTab.rows.item(row).cells[c];
+			if (element.childNodes[0].getAttribute('type') == 'text2') {
+				arrValues.push("'" + element.childNodes[0].value + "'");
+				nextLine = " /n";
+
+			}
+
+			
+		}
+	}
+	
+	// The final output.
+	// document.getElementById('loginResult').innerHTML = arrValues;
+	console.log (arrValues);
+
+}
 function doSearch()
 {
 	//event.preventDefault();
@@ -489,43 +554,10 @@ function readCookie()
 
 function doLogout()
 {
-	userId = 0;
-	firstName = "";
-	lastName = "";
+	// userId = 0;
+	// firstName = "";
+	// lastName = "";
 	document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
 	goToLogin();
 }
 
-function doAdd(e)
-{
-	e.preventDefault();
-
-	var firstName = document.getElementById("FirstName").value;
-	var lastName = document.getElementById("LastName").value;
-	var phoneNumber = document.getElementById("phoneNumber").value;
-
-	document.getElementById("loginResult").innerHTML = "";
-	
-	var jsonPayload = '{"firstName" : "' + firstName + '", "lastName" : "' + lastName + '", "PhoneNumber" : "' + phoneNumber + '"}';
-	var url = urlBase + '/Create.' + extension;
-	
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				document.getElementById("loginResult").innerHTML = "Contacthas been added";
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
-	{
-		document.getElementById("loginResult").innerHTML = err.message;
-	}
-	
-}
