@@ -312,7 +312,7 @@ function doSearch()
 				addEntry(table, 0, "First Name", "Last Name", "Phone Number", false);
 				document.getElementById("searchResult").innerHTML = "";
 
-				var length = Object.keys(jsonObject).length
+				var length = Object.keys(jsonObject).length;
 
 				//Add all entries from the search results to the table, starts at 1 because the headers are in index 0
 				for(var i = 0; i < length; i++ )
