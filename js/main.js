@@ -74,16 +74,10 @@ function goToRegisterPage()
 
 }
 
-$('#registerPassword, #registerRetypePassword').on('keyup', function () {
-	if ($('#registerPassword').val() == $('#registerRetypePassword').val()) {
-	  $('#message').html('Password matches').css('color', 'green');
-	} else 
-	  $('#message').html('Password doesn\'t match').css('color', 'red');
-  });
-
 function doRegister()
 {
 	// e.preventDefault();
+	// alert("I am here");
 	var fName;
 	var fNameVal;
 	var lName;
@@ -104,6 +98,7 @@ function doRegister()
 	
 	// alert(password + " = " + retypePassword);
 	if(password != retypePassword){
+		// alert("I am in false passwords");
 		// alert(password + " = " + retypePassword);
 		// retypePasswordVal.setCustomValidity("Passwords don't match");
 		// document.getElementById("registerPassword").value = "";
@@ -120,15 +115,18 @@ function doRegister()
 		return;
 	}
 	else {
-		retypePasswordVal.setCustomValidity('');
+		// retypePasswordVal.setCustomValidity('');
 	}
 
-	// alert("I am here");
+	// alert("I am there");
 	// goToLogin();
 	// alert("I am there");
-	document.getElementById("loginResult").innerHTML = "";
+	// document.getElementById("loginResult").innerHTML = "";
+	// alert("I am in there2");
 	var hash = md5( password );
-	var jsonPayload = '{"firstName" : "' + fName + '", "lastName" : "'+ lName + '", "userName" : "' + userName + '", "password" : "' + hash + '", "retypePassword" : "' + retypePassword + '"}';
+	// alert("I am everywhere");
+	var jsonPayload = '{"firstName" : "' + fName + '", "lastName" : "'+ lName + '", "userName" : "' + userName + '", "password" : "' + hash + '"}';
+	// alert(jsonPayload);
 	var url = urlBase + '/Register' + extension;
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true); // Opens up connection
@@ -146,7 +144,7 @@ function doRegister()
 				var jsonObject = JSON.parse( xhr.responseText );
 				var errid = jsonObject.errid;
 				// console.log(errid);
-				
+				// alert(jsonObject);
 				if(errid == "1" )
 				{	
 					goToLogin();
@@ -174,10 +172,19 @@ function doRegister()
 }
 
 $("#registerDiv").submit(function () {
+	// alert("I am in submit");
 	doRegister();
+	// alert("I am in submit 2");
 	return false;
    });
 
+$('#registerPassword, #registerRetypePassword').on('keyup', function () {
+	if ($('#registerPassword').val() == $('#registerRetypePassword').val()) {
+	  $('#message').html('Password matches').css('color', 'green');
+	} else 
+	  $('#message').html('Password doesn\'t match').css('color', 'red');
+  });
+  
 function createButton(id, type){
 	// <input type="button" id="loginButton" class="buttons" value = "Return to Login" onclick="goToLogin();"> 
 	let input = document.createElement("input");
